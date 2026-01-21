@@ -21,10 +21,10 @@ function App() {
   const current = categoryData[activeCategory];
 
   return (
-    <div className="flex h-screen bg-[#0b101d] text-white overflow-hidden">
+    <div className="flex h-screen bg-[#191832] text-white overflow-hidden">
 
       {/* 1. Sidebar Lateral com as Estratégias */}
-      <aside className="w-72 p-6 border-r border-slate-800 bg-[#0f172a]">
+      <aside className="w-72 p-6 border-r border-slate-800 bg-[#0b101d]">
         <TimeframeSidebar activeCategory={activeCategory} onSelect={setActiveCategory} />
       </aside>
 

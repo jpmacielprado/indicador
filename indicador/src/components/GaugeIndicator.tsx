@@ -44,7 +44,7 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
   };
 
   return (
-    <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 flex flex-col items-center w-full">
+    <div className="bg-[#0b101d] border border-slate-800 rounded-2xl p-4 flex flex-col items-center w-full">
       <span className="text-slate-400 font-bold mb-2 uppercase text-xs tracking-widest">
         {label}
       </span>
