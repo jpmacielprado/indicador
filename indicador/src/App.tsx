@@ -2,9 +2,6 @@
 import { AssetSelector } from './components/AssetSelector';
 import GaugeIndicator from './components/GaugeIndicator';
 
-
-export type CategoryId = 'CURTO_PRAZO' | 'OPERACIONAL' | 'TENDENCIA' | 'MACRO';
-
 function App() {
 
 
@@ -41,15 +38,8 @@ function App() {
           </div>
         </header>
 
-        {/* Título Central */}
-        <div className="text-center mb-8">
-          <h1 className="text-slate-500 text-xs font-bold uppercase tracking-[3px]">
-            Painel de Confluência Multi-Timeframe
-          </h1>
-        </div>
-
         {/* GRID PRINCIPAL: 4 colunas (desktop) e 2 linhas automáticas */}
-        <div className="max-w-350 mx-auto">
+        <div className="max-h-screen overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {allGauges.map((gauge, index) => (
               <div

@@ -9,7 +9,11 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
   const isBuy = value >= 50;
 
   const options: ApexCharts.ApexOptions = {
-    chart: { type: "radialBar", sparkline: { enabled: true } },
+    chart: {
+      type: "radialBar",
+      sparkline: { enabled: true },
+      offsetY: -10
+    },
     plotOptions: {
       radialBar: {
         startAngle: -90,
@@ -19,7 +23,7 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
           name: { show: false },
           value: {
             offsetY: -2,
-            fontSize: "22px",
+            fontSize: "20px",
             fontWeight: "bold",
             color: "#fff",
             formatter: (val) => val + "%",
@@ -32,11 +36,11 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
       gradient: {
         shade: "dark",
         type: "horizontal",
-        gradientToColors: ["#10b981"], // Verde (Emerald 500)
+        gradientToColors: ["#10b981"],
         stops: [0, 100],
         colorStops: [
-          { offset: 0, color: "#f43f5e", opacity: 1 }, // Vermelho (Rose 500)
-          { offset: 100, color: "#10b981", opacity: 1 }, // Verde
+          { offset: 0, color: "#f43f5e", opacity: 1 },
+          { offset: 100, color: "#10b981", opacity: 1 },
         ],
       },
     },
@@ -44,8 +48,8 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
   };
 
   return (
-    <div className="bg-[#0b101d] border border-slate-800 rounded-2xl p-4 flex flex-col items-center w-full">
-      <span className="text-slate-400 font-bold mb-2 uppercase text-xs tracking-widest">
+    <div className="bg-[#0b101d] border border-slate-800 rounded-xl p-3 flex flex-col items-center w-full">
+      <span className="text-slate-400 font-bold mb-1 uppercase text-[10px] tracking-widest">
         {label}
       </span>
 
@@ -59,22 +63,22 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
       </div>
 
       <div
-        className={`text-xl font-black uppercase mt-5 ${isBuy ? "text-emerald-500" : "text-rose-500"}`}
+        className={`text-base font-black uppercase mt-1 ${isBuy ? "text-emerald-500" : "text-rose-500"}`}
       >
         {isBuy ? "Comprar" : "Vender"}
       </div>
 
-      <div className="flex justify-between w-full mt-4 border-t border-slate-800 pt-3 text-[10px] font-bold">
-        <div className="text-rose-500 text-center">
+      <div className="flex justify-between w-full mt-2 border-t border-slate-800 pt-2 text-[9px] font-bold">
+        <div className="text-rose-500 text-center leading-tight">
           VENDER
           <br />
-          <span className="text-white text-sm">9</span>
+          <span className="text-white text-xs">9</span>
         </div>
-        <div className="text-slate-600 text-center self-end">9/14</div>
-        <div className="text-emerald-500 text-center">
+        <div className="text-slate-600 text-center self-end pb-1 italic">9/14</div>
+        <div className="text-emerald-500 text-center leading-tight">
           COMPRAR
           <br />
-          <span className="text-white text-sm">14</span>
+          <span className="text-white text-xs">14</span>
         </div>
       </div>
     </div>
