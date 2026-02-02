@@ -1,25 +1,55 @@
-
+import { useState, useEffect } from 'react';
 import { AssetSelector } from './components/AssetSelector';
 import GaugeIndicator from './components/GaugeIndicator';
 
+interface CategoryData {
+  [key: string]: { labels: string[]; values: number[] };
+}
+
 function App() {
+  // Estado para armazenar os dados e o status de carregamento
+  const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Exemplo de chamada para API (substitua pela URL real da sua API)
+        // const response = await fetch('https://api.seusite.com/indicadores');
+        // const data = await response.json();
 
-  const categoryData = {
-    CURTO_PRAZO: { labels: ['M1', 'M5'], values: [45, 62] },
-    OPERACIONAL: { labels: ['M15', 'M30'], values: [80, 23] },
-    TENDENCIA: { labels: ['H1', 'H4'], values: [70, 15] },
-    MACRO: { labels: ['D1', 'W1'], values: [92, 12] },
-  };
+        // Simulação de dados chegando da API (remover quando integrar)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const mockData = {
+          CURTO_PRAZO: { labels: ['M1', 'M5'], values: [45, 62] },
+          OPERACIONAL: { labels: ['M15', 'M30'], values: [80, 23] },
+          TENDENCIA: { labels: ['H1', 'H4'], values: [70, 15] },
+          MACRO: { labels: ['D1', 'W1'], values: [92, 12] },
+        };
+
+        setCategoryData(mockData);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div className="flex h-screen bg-[#191832] text-white items-center justify-center">Carregando indicadores...</div>;
+  }
 
   // Transformamos o objeto em uma lista plana para facilitar o mapeamento do grid
-  const allGauges = Object.entries(categoryData).flatMap(([category, data]) =>
+  const allGauges = categoryData ? Object.entries(categoryData).flatMap(([category, data]) =>
     data.labels.map((label, index) => ({
       label,
       value: data.values[index],
       category
     }))
-  );
+  ) : [];
 
   return (
     <div className="flex h-screen bg-[#191832] text-white overflow-hidden">
@@ -41,16 +71,8 @@ function App() {
         {/* GRID PRINCIPAL: 4 colunas (desktop) e 2 linhas automáticas */}
         <div className="max-h-screen overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {allGauges.map((gauge, index) => (
-              <div
-                key={index}
-
-              >
-                <GaugeIndicator
-                  value={gauge.value}
-                  label={gauge.label}
-                />
-              </div>
+            {allGauges.map((gauge) => (
+              <GaugeIndicator key={gauge.label} label={gauge.label} value={gauge.value} />
             ))}
           </div>
         </div>

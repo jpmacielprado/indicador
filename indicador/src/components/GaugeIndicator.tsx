@@ -6,7 +6,7 @@ interface GaugeProps {
 }
 
 export default function GaugeIndicator({ value, label }: GaugeProps) {
-  const isBuy = value >= 50;
+  const isBuy = value > 55;
 
   const options: ApexCharts.ApexOptions = {
     chart: {
@@ -34,7 +34,6 @@ export default function GaugeIndicator({ value, label }: GaugeProps) {
     fill: {
       type: "gradient",
       gradient: {
-        shade: "dark",
         type: "horizontal",
         gradientToColors: ["#10b981"],
         stops: [0, 100],
