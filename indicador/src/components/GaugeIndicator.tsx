@@ -33,7 +33,7 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
           name: { show: false },
           value: {
             offsetY: -2,
-            fontSize: "22px", // Tamanho otimizado para não estourar
+            fontSize: "22px",
             fontWeight: "900",
             color: "#fff",
             formatter: () => value + "%",
@@ -59,12 +59,12 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
   return (
     <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-between h-full min-h-45 shadow-lg transition-all hover:border-slate-600 overflow-hidden">
 
-      {/* Timeframe Label - Mantivemos forte mas com margem menor */}
+      {/* Timeframe Label */}
       <h2 className="text-white font-black text-xl uppercase tracking-[0.2em] mt-0 drop-shadow-md">
         {label}
       </h2>
 
-      {/* Container do Gráfico - Ajustado para 160px para caber no grid */}
+      {/* Container do Gráfico */}
       <div className="w-full -my-4 flex justify-center items-center">
         <Chart
           options={options}
@@ -75,12 +75,12 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         />
       </div>
 
-      {/* Status da Operação - Texto compacto */}
+      {/* Status da Operação */}
       <div className={`text-[13px] font-black uppercase mb-2 tracking-[0.15em] ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
         {status || (isBuy ? "Comprar" : "Vender")}
       </div>
 
-      {/* Grid Inferior - Compactado verticalmente */}
+      {/* Grid Inferior */}
       <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2">
         <div className="text-center">
           <span className="text-rose-500 block text-[8px] uppercase font-bold opacity-70">Sell</span>

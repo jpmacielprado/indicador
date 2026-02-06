@@ -65,7 +65,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* PRICING (A PARTE QUE IMPORTA) */}
+            {/* PRICING */}
             <section className="bg-slate-900/50 py-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-16">

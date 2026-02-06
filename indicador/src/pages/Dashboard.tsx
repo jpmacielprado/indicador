@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// Ajuste os caminhos abaixo conforme sua nova estrutura de pastas
 import { AssetSelector } from '../components/AssetSelector';
 import GaugeIndicator from '../components/GaugeIndicator';
 import { CurrencyStrength } from '../components/CurrencyStrength';
@@ -8,7 +7,7 @@ export default function Dashboard() {
     const [selectedAsset, setSelectedAsset] = useState("BTCUSDT");
     const [data, setData] = useState<any>({});
 
-    // Conexão com o WebSocket (Mantenha a lógica do backend aqui)
+    // Conexão com o WebSocket (lógica do backend aqui)
     useEffect(() => {
         const socket = new WebSocket(`ws://localhost:8000/ws/analise_completa/${selectedAsset}`);
 
@@ -31,7 +30,7 @@ export default function Dashboard() {
         <div className="h-screen bg-[#0f172a] text-white font-sans overflow-hidden flex flex-col">
             <main className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden">
 
-                {/* HEADER - Reduzi um pouco a margem inferior de mb-6 para mb-4 */}
+                {/* HEADER */}
                 <header className="flex items-center justify-between mb-4 h-12 shrink-0">
                     <div className="flex items-center gap-6">
                         <AssetSelector selected={selectedAsset} onSelect={setSelectedAsset} />
@@ -41,9 +40,8 @@ export default function Dashboard() {
                     </div>
                 </header>
 
-                {/* ÁREA CENTRAL - O segredo está no gap-4 e flex-1 */}
+                {/* ÁREA CENTRAL */}
                 <div className="flex gap-4 flex-1 overflow-hidden mb-4">
-                    {/* Grid com gap menor para ganhar espaço */}
                     <div className="grid grid-cols-4 grid-rows-2 gap-3 flex-1 h-full">
                         {timeframes.map((tf) => (
                             <GaugeIndicator
@@ -59,7 +57,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* FOOTER - Garantindo que ele não suba no conteúdo */}
+                {/* FOOTER */}
                 <footer className="h-16 border-t border-slate-800 flex flex-col items-center justify-center bg-[#0f172a] shrink-0 px-2 pt-6 gap-4">
                     <div className="flex gap-10 text-xs font-bold items-center ">
                         <span className="text-blue-400 uppercase tracking-widest">Resumo:</span>
