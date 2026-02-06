@@ -60,12 +60,21 @@ export default function Dashboard() {
                 </div>
 
                 {/* FOOTER - Garantindo que ele não suba no conteúdo */}
-                <footer className="h-16 border-t border-slate-800 flex flex-col justify-center gap-1 bg-[#0f172a] shrink-0">
-                    <div className="flex gap-10 text-xs font-bold">
+                <footer className="h-16 border-t border-slate-800 flex flex-col items-center justify-center bg-[#0f172a] shrink-0 px-2 pt-6 gap-4">
+                    <div className="flex gap-10 text-xs font-bold items-center ">
                         <span className="text-blue-400 uppercase tracking-widest">Resumo:</span>
                         <div className="flex gap-6 items-center">
                             <span className="text-rose-500 font-black">5 VENDAS</span>
                             <span className="text-emerald-500 font-black">14 COMPRAS</span>
+                            <span className="text-emerald-400 uppercase text-[10px] px-2 py-0.5 border border-emerald-500/30 rounded">5 Compra Forte</span>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-6 text-[10px] text-blue-400/50 uppercase font-medium">
+                        <span>Dados reais atualizados:</span>
+                        <div className="flex gap-4">
+                            <span>📅 {new Date().toLocaleDateString('pt-BR')}</span>
+                            <span>🕒 {new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                         </div>
                     </div>
                 </footer>
