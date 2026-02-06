@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
 
 /**
  * COMPONENTE DE ROTA PRIVADA
@@ -39,6 +40,8 @@ function App() {
 
         {/* Rota de segurança: Se o usuário digitar qualquer URL errada, volta para a Landing */}
         <Route path="*" element={<Navigate to="/" replace />} />
+
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

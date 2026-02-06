@@ -30,8 +30,8 @@ export default function LandingPage() {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button
-                        onClick={() => navigate('/indicador')}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-4 rounded-xl font-black text-lg transition-all shadow-lg shadow-emerald-900/20 active:scale-95"
+                        onClick={() => navigate('/login')}
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-4 rounded-xl font-black text-lg transition-all"
                     >
                         ACESSAR INDICADOR AGORA
                     </button>
