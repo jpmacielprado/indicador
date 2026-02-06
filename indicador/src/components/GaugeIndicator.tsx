@@ -17,18 +17,23 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: "radialBar",
-      sparkline: { enabled: true }
+      sparkline: { enabled: true },
+      animations: { enabled: true, speed: 800 }
     },
     plotOptions: {
       radialBar: {
         startAngle: -90,
         endAngle: 90,
-        track: { background: "#1e293b", strokeWidth: "85%" },
+        track: {
+          background: "#1e293b",
+          strokeWidth: "85%",
+          margin: 5
+        },
         dataLabels: {
           name: { show: false },
           value: {
-            offsetY: -5,
-            fontSize: "26px", // Valor percentual bem grande
+            offsetY: -2,
+            fontSize: "22px", // Tamanho otimizado para não estourar
             fontWeight: "900",
             color: "#fff",
             formatter: () => value + "%",
@@ -46,41 +51,50 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         stops: [0, 100]
       }
     },
+    stroke: {
+      lineCap: "round"
+    }
   };
 
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-between h-full min-h-55 shadow-lg transition-all hover:border-slate-600">
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-between h-full min-h-45 shadow-lg transition-all hover:border-slate-600 overflow-hidden">
 
-      {/* Label do Timeframe (M1, H1, etc) ampliada */}
-      <h2 className="text-white font-black text-2xl uppercase tracking-[0.25em] mt-1 drop-shadow-md">
+      {/* Timeframe Label - Mantivemos forte mas com margem menor */}
+      <h2 className="text-white font-black text-xl uppercase tracking-[0.2em] mt-0 drop-shadow-md">
         {label}
       </h2>
 
-      {/* Container do Gráfico - Aumentado de 130 para 180 */}
-      <div className="w-full -my-2 flex justify-center">
-        <Chart options={options} series={[value]} type="radialBar" height={180} width="100%" />
+      {/* Container do Gráfico - Ajustado para 160px para caber no grid */}
+      <div className="w-full -my-4 flex justify-center items-center">
+        <Chart
+          options={options}
+          series={[value]}
+          type="radialBar"
+          height={160}
+          width="100%"
+        />
       </div>
 
-      {/* Status da Operação */}
-      <div className={`text-base font-black uppercase mb-4 tracking-widest ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
+      {/* Status da Operação - Texto compacto */}
+      <div className={`text-[13px] font-black uppercase mb-2 tracking-[0.15em] ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
         {status || (isBuy ? "Comprar" : "Vender")}
       </div>
 
-      {/* Grid de Contadores Inferiores com números maiores */}
-      <div className="grid grid-cols-3 w-full gap-2 border-t border-slate-800/60 pt-4 text-[10px] font-bold">
+      {/* Grid Inferior - Compactado verticalmente */}
+      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2">
         <div className="text-center">
-          <span className="text-rose-500 block opacity-80 text-[9px] uppercase mb-1">Vender</span>
-          <span className="text-rose-400 text-base font-black">{sell}</span>
+          <span className="text-rose-500 block text-[8px] uppercase font-bold opacity-70">Sell</span>
+          <span className="text-rose-400 text-sm font-black">{sell}</span>
         </div>
 
         <div className="text-center border-x border-slate-800/40 px-1">
-          <span className="text-slate-500 block opacity-80 text-[9px] uppercase mb-1">Neutro</span>
-          <span className="text-white text-base font-black">14</span>
+          <span className="text-slate-500 block text-[8px] uppercase font-bold opacity-70">Neu</span>
+          <span className="text-white text-sm font-black">14</span>
         </div>
 
         <div className="text-center">
-          <span className="text-emerald-500 block opacity-80 text-[9px] uppercase mb-1">Comprar</span>
-          <span className="text-emerald-400 text-base font-black">{buy}</span>
+          <span className="text-emerald-500 block text-[8px] uppercase font-bold opacity-70">Buy</span>
+          <span className="text-emerald-400 text-sm font-black">{buy}</span>
         </div>
       </div>
     </div>

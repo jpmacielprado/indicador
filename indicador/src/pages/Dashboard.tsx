@@ -29,52 +29,43 @@ export default function Dashboard() {
 
     return (
         <div className="h-screen bg-[#0f172a] text-white font-sans overflow-hidden flex flex-col">
-            <main className="flex-1 flex flex-col p-6 overflow-hidden">
+            <main className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden">
 
-                {/* HEADER */}
-                <header className="flex items-center justify-between mb-6 h-12">
+                {/* HEADER - Reduzi um pouco a margem inferior de mb-6 para mb-4 */}
+                <header className="flex items-center justify-between mb-4 h-12 shrink-0">
                     <div className="flex items-center gap-6">
-                        <AssetSelector
-                            selected={selectedAsset}
-                            onSelect={(asset: string) => setSelectedAsset(asset)}
-                        />
-                        <div className="text-slate-400 text-sm border-l border-slate-700 pl-6 italic">
-                            Licença Ativa | Mensal | Válida até 25/06/2026
+                        <AssetSelector selected={selectedAsset} onSelect={setSelectedAsset} />
+                        <div className="hidden md:block text-slate-400 text-sm border-l border-slate-700 pl-6 italic">
+                            Licença Ativa | Mensal
                         </div>
                     </div>
                 </header>
 
-                {/* ÁREA CENTRAL */}
-                <div className="flex gap-6 flex-1 overflow-hidden mb-6">
-                    <div className="grid grid-cols-4 grid-rows-2 gap-5 flex-1 h-full">
+                {/* ÁREA CENTRAL - O segredo está no gap-4 e flex-1 */}
+                <div className="flex gap-4 flex-1 overflow-hidden mb-4">
+                    {/* Grid com gap menor para ganhar espaço */}
+                    <div className="grid grid-cols-4 grid-rows-2 gap-3 flex-1 h-full">
                         {timeframes.map((tf) => (
                             <GaugeIndicator
                                 key={tf}
                                 label={tf}
-                                data={data[tf] || { value: 50, buy: 0, sell: 0, status: "CARREGANDO..." }}
+                                data={data[tf] || { value: 50, buy: 0, sell: 0, status: "..." }}
                             />
                         ))}
                     </div>
-                    <div className="h-full flex flex-col">
+
+                    <div className="h-full flex flex-col shrink-0">
                         <CurrencyStrength />
                     </div>
                 </div>
 
-                {/* FOOTER RESUMO */}
-                <footer className="h-20 border-t border-slate-800 flex flex-col justify-center gap-2 bg-[#0f172a]">
-                    <div className="flex gap-10 text-sm font-bold">
-                        <span className="text-blue-400 uppercase tracking-[0.2em]">Resumo:</span>
-                        <div className="flex gap-8 items-center">
-                            <span className="text-rose-500">5 VENDAS</span>
-                            <span className="text-emerald-500">14 COMPRAS</span>
-                            <span className="text-emerald-400 uppercase">5 COMPRAS FORTE</span>
-                        </div>
-                    </div>
-                    <div className="text-[11px] text-blue-400/60 flex gap-6 uppercase tracking-[0.3em]">
-                        <span>Dados reais atualizados:</span>
-                        <div className="flex gap-4">
-                            <span>📅 16/01/2026</span>
-                            <span>🕒 10:40:32</span>
+                {/* FOOTER - Garantindo que ele não suba no conteúdo */}
+                <footer className="h-16 border-t border-slate-800 flex flex-col justify-center gap-1 bg-[#0f172a] shrink-0">
+                    <div className="flex gap-10 text-xs font-bold">
+                        <span className="text-blue-400 uppercase tracking-widest">Resumo:</span>
+                        <div className="flex gap-6 items-center">
+                            <span className="text-rose-500 font-black">5 VENDAS</span>
+                            <span className="text-emerald-500 font-black">14 COMPRAS</span>
                         </div>
                     </div>
                 </footer>
