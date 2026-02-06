@@ -1,27 +1,44 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Landing from './pages/Landing';
+import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 
-// Função fake para exemplificar a checagem de assinatura
-const hasActiveSubscription = () => {
-  // Aqui você integraria com seu backend ou Stripe/MercadoPago
-  return localStorage.getItem('user_status') === 'active';
+/**
+ * COMPONENTE DE ROTA PRIVADA
+ * * Ele verifica se o usuário tem a "assinatura ativa" no localStorage.
+ * React.ReactNode é a tipagem correta para resolver o erro 'Cannot find namespace JSX'.
+ */
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+  // Simulando a checagem de assinatura
+  const isAuthenticated = localStorage.getItem('user_status') === 'active';
+
+  if (!isAuthenticated) {
+    // Se não tiver assinatura, manda de volta para a Landing Page
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
 };
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rota Pública */}
-        <Route path="/" element={<Landing />} />
+        {/* Página inicial: Landing Page (Pública) */}
+        <Route path="/" element={<LandingPage />} />
 
-        {/* Rota Protegida */}
+        {/* Área do Indicador: Protegida por assinatura */}
         <Route
           path="/indicador"
           element={
-            hasActiveSubscription() ? <Dashboard /> : <Navigate to="/login" />
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
           }
         />
+
+        {/* Rota de segurança: Se o usuário digitar qualquer URL errada, volta para a Landing */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
