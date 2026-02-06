@@ -1,64 +1,74 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AssetSelector } from './components/AssetSelector';
 import GaugeIndicator from './components/GaugeIndicator';
-
-// O Back agora vai enviar algo como: { "M1": 45, "M5": 62, "H1": 70 ... }
-interface RealTimeData {
-  [key: string]: number;
-}
+import { CurrencyStrength } from './components/CurrencyStrength';
 
 function App() {
-  const [data, setData] = useState<RealTimeData>({});
-  const [loading, setLoading] = useState(true);
-  const [selectedAsset, setSelectedAsset] = useState("BTCUSDT");
+  const [selectedAsset, setSelectedAsset] = useState("AUD/CAD");
 
-  useEffect(() => {
-    setLoading(true);
-    // Conectamos ao novo endpoint que envia TODOS os sinais daquela moeda
-    const socket = new WebSocket(`ws://localhost:8000/ws/analise_completa/${selectedAsset}`);
-
-    socket.onmessage = (event) => {
-      const payload = JSON.parse(event.data);
-      // O payload deve vir formatado do back: { "M1": 45, "M5": 60... }
-      setData(payload);
-      setLoading(false);
-    };
-
-    socket.onerror = () => setLoading(false);
-
-    return () => socket.close();
-  }, [selectedAsset]);
+  // Dados estáticos para preencher o grid de 8 relógios
+  const gauges = [
+    { label: "M1", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "M5", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "M15", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "M30", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "H1", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "H4", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "D1", value: 80, buy: 14, sell: 9, status: "Comprar" },
+    { label: "W1", value: 80, buy: 14, sell: 9, status: "Comprar" },
+  ];
 
   return (
-    <div className="flex h-screen bg-[#191832] text-white overflow-hidden">
-      <main className="flex-1 p-8 overflow-y-auto">
-        <header className="flex justify-between items-center mb-10">
-          {/* Passe uma função para mudar o asset aqui */}
-          <AssetSelector
-            selected={selectedAsset}
-            onSelect={(symbol) => setSelectedAsset(symbol)}
-          />
-
-          <div className="flex items-center gap-3 bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/20">
-            <div className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </div>
-            <span className="text-emerald-500 text-[10px] font-black uppercase tracking-[1.5px]">Licença Ativa</span>
+    <div className="h-screen bg-[#0f172a] text-white font-sans overflow-hidden flex flex-col">
+      
+      {/* CONTEÚDO PRINCIPAL PADDING AJUSTADO */}
+      <main className="flex-1 flex flex-col p-6 overflow-hidden">
+        
+        {/* HEADER */}
+        <header className="flex items-center justify-between mb-6 h-10">
+          <div className="flex items-center gap-6">
+             <AssetSelector selected={selectedAsset} onSelect={setSelectedAsset} />
+             <div className="text-slate-400 text-[12px] border-l border-slate-700 pl-6 italic">
+               Licença Ativa | Mensal | Válida até 25/06/2026
+             </div>
           </div>
         </header>
 
-        <div className="max-h-screen">
-          {loading && Object.keys(data).length === 0 ? (
-            <div className="text-center text-slate-500 animate-pulse">Iniciando análise técnica...</div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Object.entries(data).map(([label, info]) => (
-                <GaugeIndicator key={label} label={label} data={info as any} />
-              ))}
-            </div>
-          )}
+        {/* ÁREA CENTRAL - Ocupa todo o espaço restante */}
+        <div className="flex gap-6 flex-1 overflow-hidden mb-6">
+          
+          {/* GRID DE GAUGES - 2 LINHAS FIXAS */}
+          <div className="grid grid-cols-4 grid-rows-2 gap-4 flex-1">
+            {gauges.map((g, i) => (
+              <GaugeIndicator key={i} label={g.label} data={g} />
+            ))}
+          </div>
+
+          {/* RANKING LATERAL */}
+          <div className="h-full flex flex-col">
+            <CurrencyStrength />
+          </div>
         </div>
+
+        {/* FOOTER - FIXO NA BASE */}
+        <footer className="h-24 border-t border-slate-800 flex flex-col justify-center gap-3 bg-[#0f172a]">
+          <div className="flex gap-10 text-[12px] font-bold">
+            <span className="text-blue-400 uppercase tracking-[0.2em]">Resumo:</span>
+            <div className="flex gap-6">
+              <span className="text-rose-500">5 VENDAS</span>
+              <span className="text-emerald-500">14 COMPRAS</span>
+              <span className="text-emerald-400 uppercase">5 COMPRAS FORTE</span>
+            </div>
+          </div>
+          
+          <div className="text-[10px] text-blue-400/60 flex gap-6 uppercase tracking-widest">
+            <span>Dados reais atualizados:</span>
+            <div className="flex gap-4">
+              <span>📅 16/01/2026</span>
+              <span>🕒 10:40:32</span>
+            </div>
+          </div>
+        </footer>
       </main>
     </div>
   );

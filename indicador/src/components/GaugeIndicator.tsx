@@ -12,20 +12,20 @@ interface GaugeProps {
 
 export default function GaugeIndicator({ label, data }: GaugeProps) {
   const { value, buy, sell, status } = data;
-  const isBuy = value > 55;
+  const isBuy = value > 50;
 
   const options: ApexCharts.ApexOptions = {
-    chart: { type: "radialBar", sparkline: { enabled: true }, offsetY: -10 },
+    chart: { type: "radialBar", sparkline: { enabled: true } },
     plotOptions: {
       radialBar: {
         startAngle: -90,
         endAngle: 90,
-        track: { background: "#1e293b", strokeWidth: "97%" },
+        track: { background: "#1e293b", strokeWidth: "85%" },
         dataLabels: {
           name: { show: false },
           value: {
             offsetY: -2,
-            fontSize: "20px",
+            fontSize: "16px",
             fontWeight: "bold",
             color: "#fff",
             formatter: () => value + "%",
@@ -33,34 +33,33 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         },
       },
     },
-    fill: {
-      type: "gradient",
-      gradient: {
-        type: "horizontal",
-        colorStops: [
-          { offset: 0, color: "#f43f5e", opacity: 1 },
-          { offset: 100, color: "#10b981", opacity: 1 },
-        ],
-      },
-    },
+    fill: { colors: [isBuy ? "#10b981" : "#f43f5e"] },
   };
 
   return (
-    <div className="bg-[#0b101d] border border-slate-800 rounded-xl p-3 flex flex-col items-center w-full">
-      <span className="text-slate-400 font-bold mb-1 uppercase text-[10px] tracking-widest">{label}</span>
-      <div className="w-full">
-        <Chart options={options} series={[value]} type="radialBar" height={200} />
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-lg p-2 flex flex-col items-center justify-between h-full min-h-45 max-h-52.5">
+      <span className="text-white font-bold text-[10px] uppercase tracking-wider">{label}</span>
+
+      <div className="w-full -my-3">
+        <Chart options={options} series={[value]} type="radialBar" height={130} />
       </div>
-      <div className={`text-base font-black uppercase mt-1 ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
-        {status}
+
+      <div className={`text-[11px] font-black uppercase mb-2 ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
+        {status || (isBuy ? "Comprar" : "Vender")}
       </div>
-      <div className="flex justify-between w-full mt-2 border-t border-slate-800 pt-2 text-[9px] font-bold">
-        <div className="text-rose-500 text-center leading-tight">
-          VENDER <br /> <span className="text-white text-xs">{sell}</span>
+
+      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800 pt-2 text-[9px] font-bold">
+        <div className="text-center">
+          <span className="text-rose-500 block opacity-70 text-[7px] uppercase">Vender</span>
+          <span className="text-rose-500">{sell}</span>
         </div>
-        <div className="text-slate-600 text-center self-end pb-1 italic">TEMA PRO</div>
-        <div className="text-emerald-500 text-center leading-tight">
-          COMPRAR <br /> <span className="text-white text-xs">{buy}</span>
+        <div className="text-center">
+          <span className="text-slate-400 block opacity-70 text-[7px] uppercase">Neutro</span>
+          <span className="text-white">14</span>
+        </div>
+        <div className="text-center">
+          <span className="text-emerald-500 block opacity-70 text-[7px] uppercase">Comprar</span>
+          <span className="text-emerald-500">{buy}</span>
         </div>
       </div>
     </div>
