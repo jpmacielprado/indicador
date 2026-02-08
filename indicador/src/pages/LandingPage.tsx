@@ -256,7 +256,7 @@ export default function LandingPage() {
                                         <span className="text-cyan-400">{item.highlight}</span>
                                     </h4>
 
-                                    <p className="text-slate-400 text-sm leading-relaxed max-w-60]">
+                                    <p className="text-slate-400 text-sm leading-relaxed max-w-60">
                                         {item.description}
                                     </p>
                                 </div>
