@@ -1,9 +1,44 @@
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, TrendingUp, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
+import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search } from 'lucide-react';
 import Graph from '../assets/graph.svg'
+import Work1 from '../assets/work1.svg'
+import Work2 from '../assets/work2.svg'
+import Work3 from '../assets/work3.svg'
+
+
 
 export default function LandingPage() {
     const navigate = useNavigate();
+
+    const steps = [
+        {
+            number: "1",
+            title: "Escolha o par de moedas",
+            description: "Selecione o mercado que deseja analisar.",
+            icon: <MousePointer2 className="text-blue-400" size={32} />,
+            image: (
+                <img src={Work1} alt="Laptop com pares de moedas" className="h-40 object-contain mx-auto" />
+            )
+        },
+        {
+            number: "2",
+            title: "Veja a força real",
+            description: "O sistema analisa múltiplos tempos automaticamente.",
+            icon: <Search className="text-cyan-400" size={32} />,
+            image: (
+                <img src={Work2} alt="Análise de força de mercado" className="h-40 object-contain mx-auto" />
+            )
+        },
+        {
+            number: "3",
+            title: "Tome a decisão",
+            description: "Comprar, vender ou aguardar com clareza visual.",
+            icon: <TrendingUp className="text-rose-500" size={32} />,
+             image: (
+                <img src={Work3} alt="Decisão visual clara" className="h-40 object-contain mx-auto" />
+            )
+        }
+    ];
 
     return (
         <div className="min-h-screen text-white font-sans bg-linear-to-r from-[#020617] to-[#0f172a] ">
@@ -75,45 +110,43 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* PRICING */}
-            <section className="bg-slate-900/50 py-24 px-6">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-black mb-4 uppercase tracking-tighter">Planos Disponíveis</h2>
-                        <p className="text-slate-500">Escolha a melhor opção para sua jornada no trading</p>
-                    </div>
+            {/* HOW IT WORKS */}
+            <section className="py-24 px-6 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto text-center">
+                    {/* Título da Seção */}
+                    <h2 className="text-4xl md:text-5xl font-black mb-20 relative inline-block">
+                        Como funciona.
+                        <div className="h-1.5 w-1/2 bg-cyan-500 absolute -bottom-4 left-1/4 rounded-full blur-[1px]"></div>
+                    </h2>
 
-                    <div className="bg-[#111827] border-2 border-emerald-500/50 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
-                        <div className="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-black px-10 py-2 rotate-45 translate-x-8 translate-y-2">
-                            MAIS VENDIDO
-                        </div>
+                    {/* Grid de Passos */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {steps.map((step) => (
+                            <div key={step.number} className="relative group">
+                                {/* Card Container */}
+                                <div className="h-full bg-[#0a0f1d]/60 border border-slate-800/50 rounded-3xl p-8 backdrop-blur-xl transition-all duration-500 group-hover:border-cyan-500/50 group-hover:bg-[#0a0f1d]/80 flex flex-col items-center">
 
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-                            <div>
-                                <h3 className="text-2xl font-black mb-2 uppercase">Acesso Vitalício</h3>
-                                <ul className="space-y-3">
-                                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                                        <CheckCircle2 className="text-emerald-500" size={18} /> Todos os ativos liberados
-                                    </li>
-                                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                                        <CheckCircle2 className="text-emerald-500" size={18} /> Suporte VIP 24/7
-                                    </li>
-                                    <li className="flex items-center gap-2 text-slate-300 text-sm">
-                                        <CheckCircle2 className="text-emerald-500" size={18} /> Atualizações vitalícias
-                                    </li>
-                                </ul>
+                                    {/* Número flutuante com Glow */}
+                                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-[#1e293b] border-4 border-[#020617] rounded-full flex items-center justify-center font-black text-xl text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                                        {step.number}
+                                    </div>
+
+                                    <div className="mt-4 mb-4 opacity-50">{step.icon}</div>
+
+                                    <h3 className="text-xl font-bold mb-3">{step.title}</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                                        {step.description}
+                                    </p>
+
+                                    {/* Ilustração Visual Inferior */}
+                                    <div className="w-full mt-auto">
+                                        {step.image}
+                                        {/* Base de brilho inferior */}
+                                        <div className="w-full h-1 bg-linear-to-r from-transparent via-cyan-500 to-transparent mt-8 opacity-40 blur-[2px]"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="text-center md:text-right">
-                                <div className="text-slate-500 line-through text-lg">R$ 497</div>
-                                <div className="text-5xl font-black text-white mb-6">R$ 197</div>
-                                <button
-                                    onClick={() => navigate('/indicador')}
-                                    className="w-full md:w-auto bg-white text-black px-12 py-4 rounded-xl font-black hover:bg-slate-200 transition-all shadow-xl"
-                                >
-                                    QUERO MINHA LICENÇA
-                                </button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
