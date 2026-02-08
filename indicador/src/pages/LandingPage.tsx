@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search, Users, BarChart, Lightbulb, ShoppingCart, Sparkles, BrainCircuit, HeadphonesIcon, } from 'lucide-react';
+import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search, Users, BarChart, Lightbulb, ShoppingCart, Sparkles, BrainCircuit, HeadphonesIcon, ChevronDown, HelpCircle, } from 'lucide-react';
 import Graph from '../assets/graph.svg'
 import Work1 from '../assets/work1.svg'
 import Work2 from '../assets/work2.svg'
 import Work3 from '../assets/work3.svg'
 import { ScrollAnimation } from '../components/ScrollAnimation';
 import Banner from '../components/Banner';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -84,6 +86,27 @@ export default function LandingPage() {
             borderColor: "group-hover:border-indigo-500/30"
         }
     ];
+
+    const faqs = [
+        {
+            question: "Preciso ter experiência prévia em Forex?",
+            answer: "Não. O indicador foi desenhado para simplificar o mercado. Se você sabe identificar as cores verde (compra) e vermelho (venda), você já consegue utilizar a ferramenta."
+        },
+        {
+            question: "O acesso é vitalício?",
+            answer: "Sim! Ao adquirir o plano atual, você garante acesso permanente à plataforma e a todas as atualizações futuras sem custos adicionais."
+        },
+        {
+            question: "Funciona em quais dispositivos?",
+            answer: "Por ser uma plataforma web otimizada, você pode acessar pelo computador, tablet ou smartphone diretamente pelo seu navegador, sem precisar instalar nada pesado."
+        },
+        {
+            question: "Como recebo o acesso?",
+            answer: "Imediatamente após a confirmação do pagamento, você receberá um e-mail com seus dados de login e um guia rápido de início."
+        }
+    ];
+
+    const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
     return (
         <div className="min-h-screen text-white font-sans bg-linear-to-r from-[#020617] to-[#0f172a] ">
@@ -336,8 +359,72 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* FAQ */}
+            <section className="py-24 px-6">
+                <div className="max-w-3xl mx-auto">
+
+                    <ScrollAnimation>
+                        <div className="text-center mb-16">
+                            <div className="flex justify-center mb-4">
+                                <span className="bg-blue-500/10 text-blue-400 text-xs font-bold px-4 py-1.5 rounded-full border border-blue-500/20 flex items-center gap-2">
+                                    <HelpCircle size={14} /> DÚVIDAS FREQUENTES
+                                </span>
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-black text-white">
+                                Perguntas comuns
+                            </h2>
+                        </div>
+                    </ScrollAnimation>
+
+                    <div className="space-y-4">
+                        {faqs.map((faq, index) => (
+                            <ScrollAnimation key={index} delay={index * 0.1}>
+                                <div className="border border-slate-800 rounded-2xl bg-[#0a0f1d]/40 overflow-hidden">
+                                    <button
+                                        onClick={() => setActiveIdx(activeIdx === index ? null : index)}
+                                        className="w-full p-6 flex items-center justify-between text-left transition-colors hover:bg-slate-800/30"
+                                    >
+                                        <span className="font-bold text-slate-200">{faq.question}</span>
+                                        <motion.div
+                                            animate={{ rotate: activeIdx === index ? 180 : 0 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <ChevronDown className="text-slate-500" size={20} />
+                                        </motion.div>
+                                    </button>
+
+                                    <AnimatePresence>
+                                        {activeIdx === index && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            >
+                                                <div className="px-6 pb-6 text-slate-400 text-sm leading-relaxed border-t border-slate-800/50 pt-4">
+                                                    {faq.answer}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </ScrollAnimation>
+                        ))}
+                    </div>
+
+                    <ScrollAnimation delay={0.4}>
+                        <div className="mt-16 text-center">
+                            <p className="text-slate-500 text-sm mb-6">Ainda tem dúvidas? Fale com nosso suporte.</p>
+                            <button className="text-cyan-400 font-bold hover:underline cursor-pointer">
+                                Chamar no WhatsApp →
+                            </button>
+                        </div>
+                    </ScrollAnimation>
+                </div>
+            </section>
+
             {/* FOOTER */}
-            <footer className="py-10 text-center text-slate-600 text-[10px] uppercase tracking-[0.4em]">
+            <footer className=" bg-[#020617] py-10 text-center text-slate-600 text-[10px] uppercase tracking-[0.4em]">
                 © 2026 INDICADOR PRO - Trading Analytics Systems
             </footer>
         </div>
