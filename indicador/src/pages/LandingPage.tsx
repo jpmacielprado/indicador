@@ -415,9 +415,15 @@ export default function LandingPage() {
                     <ScrollAnimation delay={0.4}>
                         <div className="mt-16 text-center">
                             <p className="text-slate-500 text-sm mb-6">Ainda tem dúvidas? Fale com nosso suporte.</p>
-                            <button className="text-cyan-400 font-bold hover:underline cursor-pointer">
-                                Chamar no WhatsApp →
-                            </button>
+                            <a
+                                href="https://api.whatsapp.com/send?phone=5512988971084&text=Olá! Gostaria de tirar algumas dúvidas sobre o Indicador."
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-cyan-400 font-bold hover:text-cyan-300 transition-colors group cursor-pointer"
+                            >
+                                Chamar no WhatsApp
+                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                            </a>
                         </div>
                     </ScrollAnimation>
                 </div>
@@ -425,7 +431,7 @@ export default function LandingPage() {
 
             {/* FOOTER */}
             <footer className=" bg-[#020617] py-10 text-center text-slate-600 text-[10px] uppercase tracking-[0.4em]">
-                © 2026 INDICADOR PRO - Trading Analytics Systems
+                © 2026 INDICADOR - Trading Analytics Systems
             </footer>
         </div>
     );
