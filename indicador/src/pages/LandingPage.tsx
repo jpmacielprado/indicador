@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search } from 'lucide-react';
+import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search, Users, BarChart, Lightbulb } from 'lucide-react';
 import Graph from '../assets/graph.svg'
 import Work1 from '../assets/work1.svg'
 import Work2 from '../assets/work2.svg'
@@ -34,9 +34,30 @@ export default function LandingPage() {
             title: "Tome a decisão",
             description: "Comprar, vender ou aguardar com clareza visual.",
             icon: <TrendingUp className="text-rose-500" size={32} />,
-             image: (
+            image: (
                 <img src={Work3} alt="Decisão visual clara" className="h-40 object-contain mx-auto" />
             )
+        }
+    ];
+
+    const partner = [
+        {
+            icon: <Users size={32} className="text-cyan-400" />,
+            title: "Estamos ao ",
+            highlight: "seu lado.",
+            description: "Monitoramos o mercado em tempo para você."
+        },
+        {
+            icon: <BarChart size={32} className="text-cyan-400" />,
+            title: "Simples e ",
+            highlight: "direto.",
+            description: "Análises automáticas e sinais claros, para decisões assertivas."
+        },
+        {
+            icon: <Lightbulb size={32} className="text-cyan-400" />,
+            title: "Sem ",
+            highlight: "complicação.",
+            description: "Você age com confiança mesmo sem ser especialista."
         }
     ];
 
@@ -74,7 +95,7 @@ export default function LandingPage() {
                     </div>
 
                     {/* COLUNA DIREITA: IMAGEM/ELEMENTOS VISUAIS */}
-                    <div className="relative">
+                    <div>
                         {/* CARD PRINCIPAL (A imagem do gráfico/celular) */}
                         <div>
                             <img src={Graph} />
@@ -84,7 +105,7 @@ export default function LandingPage() {
             </header>
 
             {/* FEATURES */}
-            <section className="max-w-7xl mx-auto px-6 py-20 border-t border-slate-800/50">
+            <section className="max-w-7xl mx-auto px-6 py-20 border-y border-slate-800/50">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     <div className="flex flex-col items-center text-center">
                         <div className="bg-blue-500/10 p-4 rounded-2xl mb-6">
@@ -148,6 +169,50 @@ export default function LandingPage() {
                             </div>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* PARTNERS */}
+            <section className="max-w-7xl mx-auto px-6 py-20 border-b border-slate-800/50">
+                <div className="max-w-6xl mx-auto text-center">
+
+                    {/* TÍTULO PRINCIPAL */}
+                    <div className="mb-20">
+                        <h2 className="text-3xl md:text-4xl font-black mb-2">
+                            Você foca na estratégia.
+                        </h2>
+                        <h3 className="text-3xl md:text-4xl font-black text-cyan-400">
+                            Nós cuidamos da leitura no mercado.
+                        </h3>
+                    </div>
+
+                    {/* GRID DE RECURSOS */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        {partner.map((item, index) => (
+                            <div key={index} className="flex flex-col items-center group">
+
+                                {/* ÍCONE CIRCULAR COM GLOW */}
+                                <div className="w-20 h-20 rounded-full border border-slate-700 flex items-center justify-center mb-6 relative transition-all duration-300 group-hover:border-cyan-500/50 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+                                    {/* Círculo Interno de Brilho */}
+                                    <div className="absolute inset-1 rounded-full border border-slate-800 bg-[#0a0f1d]"></div>
+                                    <div className="relative z-10">
+                                        {item.icon}
+                                    </div>
+                                </div>
+
+                                {/* TEXTO */}
+                                <h4 className="text-lg font-bold mb-3">
+                                    {item.title}
+                                    <span className="text-cyan-400">{item.highlight}</span>
+                                </h4>
+
+                                <p className="text-slate-400 text-sm leading-relaxed max-w-60]">
+                                    {item.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
             </section>
 
