@@ -1,40 +1,50 @@
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, TrendingUp, Zap, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, TrendingUp, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
+import Graph from '../assets/graph.svg'
 
 export default function LandingPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white font-sans selection:bg-emerald-500/30">
+        <div className="min-h-screen text-white font-sans bg-linear-to-r from-[#020617] to-[#0f172a] ">
+            <header className="relative z-10 max-w-7xl mx-auto px-6 pt-24 md:pt-32 pb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            {/* HERO SECTION */}
-            <header className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-                <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full mb-8">
-                    <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                    </span>
-                    <span className="text-emerald-500 text-xs font-bold uppercase tracking-widest">Tecnologia em Tempo Real</span>
-                </div>
+                    {/* COLUNA ESQUERDA: TEXTO */}
+                    <div className="flex flex-col space-y-8">
 
-                <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">
-                    Domine o Mercado com <br />
-                    <span className="bg-linear-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent">
-                        Precisão Matemática
-                    </span>
-                </h1>
+                        {/* TÍTULO PRINCIPAL */}
+                        <div className="space-y-6">
+                            <h1 className="text-4xl md:text-4xl font-black leading-snug">
+                                Veja o mercado com <span className="text-cyan-400">clareza.</span><br />
+                                Decida com <span className="text-emerald-400">confiança.</span>
+                            </h1>
 
-                <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                    O indicador definitivo para traders que buscam confluência de timeframes e força de moeda em um único dashboard profissional.
-                </p>
+                            <p className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-lg">
+                                Transformando dados complexos do Forex em decisões visuais simples,
+                                para você saber quando <span className="text-emerald-400 font-bold">comprar</span>,
+                                <span className="text-rose-500 font-bold"> vender</span> ou <span className="text-yellow-300 font-bold">esperar</span>,
+                                em segundos.
+                            </p>
+                        </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
-                        onClick={() => navigate('/login')}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-4 rounded-xl font-black text-lg transition-all"
-                    >
-                        ACESSAR INDICADOR AGORA
-                    </button>
+                        {/* BOTÃO CTA */}
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="w-fit flex items-center gap-3 bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 hover:transform hover:scale-101 text-white px-10 py-5 rounded-xl font-black text-lg transition-all active:scale-95"
+                        >
+                            ACESSAR AGORA
+                            <ArrowRight size={22} />
+                        </button>
+                    </div>
+
+                    {/* COLUNA DIREITA: IMAGEM/ELEMENTOS VISUAIS */}
+                    <div className="relative">
+                        {/* CARD PRINCIPAL (A imagem do gráfico/celular) */}
+                        <div>
+                            <img src={Graph} />
+                        </div>
+                    </div>
                 </div>
             </header>
 
