@@ -5,8 +5,7 @@ import Work1 from '../assets/work1.svg'
 import Work2 from '../assets/work2.svg'
 import Work3 from '../assets/work3.svg'
 import { ScrollAnimation } from '../components/ScrollAnimation';
-
-
+import Banner from '../components/Banner';
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -216,6 +215,9 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* BANNER */}
+            <Banner />
 
             {/* PARTNERS */}
             <section className="max-w-7xl mx-auto px-6 py-20 border-b border-slate-800/50">
