@@ -98,7 +98,7 @@ export default function LandingPage() {
         },
         {
             question: "Funciona em quais dispositivos?",
-            answer: "Por ser uma plataforma web otimizada, você pode acessar pelo computador, tablet ou smartphone diretamente pelo seu navegador, sem precisar instalar nada pesado."
+            answer: "Por ser uma plataforma web otimizada, você pode acessar pelo seu navegador, sendo recomendado o acesso via desktop, sem precisar instalar nada pesado."
         },
         {
             question: "Como recebo o acesso?",
