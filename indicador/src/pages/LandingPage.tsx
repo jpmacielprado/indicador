@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search, Users, BarChart, Lightbulb } from 'lucide-react';
+import { TrendingUp, Zap, ShieldCheck, ArrowRight, MousePointer2, Search, Users, BarChart, Lightbulb, ShoppingCart, Sparkles, BrainCircuit, HeadphonesIcon } from 'lucide-react';
 import Graph from '../assets/graph.svg'
 import Work1 from '../assets/work1.svg'
 import Work2 from '../assets/work2.svg'
@@ -58,6 +58,30 @@ export default function LandingPage() {
             title: "Sem ",
             highlight: "complicação.",
             description: "Você age com confiança mesmo sem ser especialista."
+        }
+    ];
+
+    const perks = [
+        {
+            title: "Torne-se um trader com maestria.",
+            desc: "Comece agora com confiança e tenha o domínio do mercado.",
+            icon: <BrainCircuit className="text-blue-400" size={28} />,
+            bgColor: "bg-blue-500/10",
+            borderColor: "group-hover:border-blue-500/30"
+        },
+        {
+            title: "Pagamento protegido",
+            desc: "Compra segura e sem risco, acesso imediato após o pagamento.",
+            icon: <ShieldCheck className="text-cyan-400" size={28} />,
+            bgColor: "bg-cyan-500/10",
+            borderColor: "group-hover:border-cyan-500/30"
+        },
+        {
+            title: "Suporte especializado",
+            desc: "Nosso time está pronto para te ajudar a extrair o máximo da ferramenta.",
+            icon: <HeadphonesIcon className="text-indigo-400" size={28} />,
+            bgColor: "bg-indigo-500/10",
+            borderColor: "group-hover:border-indigo-500/30"
         }
     ];
 
@@ -216,6 +240,70 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* PRICING */}
+            <section className="py-24 px-6">
+                <div className="max-w-6xl mx-auto">
+
+                    <h2 className="text-3xl md:text-4xl font-black text-white text-center mb-16">
+                        A ferramenta que pode mudar <br /> sua vida profissional.
+                    </h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+                        {/* COLUNA ESQUERDA: Cards */}
+                        <div className="lg:col-span-7 flex flex-col justify-center gap-6">
+                            {perks.map((perk, index) => (
+                                <div
+                                    key={index}
+                                    className={`group bg-[#0a0f1d]/60 border border-slate-800 p-6 rounded-2xl backdrop-blur-sm flex gap-6 items-start transition-all duration-300 ${perk.borderColor}`}
+                                >
+                                    <div className={`p-3 ${perk.bgColor} rounded-xl shrink-0 transition-transform group-hover:scale-110`}>
+                                        {perk.icon}
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-white leading-tight">{perk.title}</h4>
+                                        <p className="text-slate-400 text-sm mt-1 leading-relaxed">{perk.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* COLUNA DIREITA: Card de Preço */}
+                        <div className="lg:col-span-5 relative group">
+                            <div className="absolute -inset-1 bg-linear-to-b from-blue-600 to-cyan-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+
+                            <div className="relative h-full bg-[#0a0f1d] border border-blue-500/30 rounded-3xl p-10 flex flex-col shadow-2xl">
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-blue-600 to-cyan-500 px-8 py-2 rounded-xl text-sm font-black tracking-widest shadow-lg">
+                                    Pagamento
+                                </div>
+
+                                <div className="mt-6">
+                                    <p className="text-slate-500 line-through text-lg">De R$360</p>
+                                    <p className="text-slate-300 text-sm mt-1">por apenas 12x de</p>
+                                    <h3 className="text-6xl font-black text-white mt-2 mb-8">R$ 30,00</h3>
+                                </div>
+
+                                <ul className="space-y-4 mb-10">
+                                    {["Acelera leitura do mercado", "Mostra a força real das moedas", "Decisões claras em segundos", "Mais controle nas decisões"].map((item) => (
+                                        <li key={item} className="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                                            <Sparkles className="text-cyan-400" size={18} />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button className="w-full mt-auto bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl active:scale-95">
+                                    <ShoppingCart size={22} />
+                                    Comprar agora
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* FOOTER */}
             <footer className="py-10 text-center text-slate-600 text-[10px] uppercase tracking-[0.4em]">
                 © 2026 INDICADOR PRO - Trading Analytics Systems
             </footer>
