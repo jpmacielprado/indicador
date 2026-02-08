@@ -282,7 +282,7 @@ export default function LandingPage() {
                         {/* COLUNA ESQUERDA: Cards */}
                         <div className="lg:col-span-7 flex flex-col justify-center gap-6">
                             {perks.map((perk, index) => (
-                                <ScrollAnimation key={index} delay={0.2 + index * 0.1}>
+                                <ScrollAnimation delay={0.2}>
                                     <div
                                         key={index}
                                         className={`group bg-[#0a0f1d]/60 border border-slate-800 p-6 rounded-2xl backdrop-blur-sm flex gap-6 items-start transition-all duration-300 ${perk.borderColor}`}
