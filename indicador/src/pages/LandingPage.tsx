@@ -187,7 +187,7 @@ export default function LandingPage() {
                             <div className="bg-purple-500/10 p-4 rounded-2xl mb-6">
                                 <ShieldCheck className="text-purple-500" size={32} />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Currency Strength</h3>
+                            <h3 className="text-xl font-bold mb-3">Força Atual</h3>
                             <p className="text-slate-400 text-sm">Saiba quais moedas estão fortes e quais estão fracas antes mesmo de abrir o gráfico.</p>
                         </div>
                     </ScrollAnimation>
