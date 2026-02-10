@@ -42,7 +42,7 @@ const Login: React.FC = () => {
                 {/* Logo/Título */}
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-white mb-2">Login</h2>
-                    <p className="text-slate-400">Acesse o painel do Indicador Pro</p>
+                    <p className="text-slate-400">Acesse o painel do Indicador</p>
                 </div>
 
                 {error && (
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-linear-to-r from-cyan-500 to-emerald-500 hover:from-cyan-600 hover:to-emerald-600 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50"
+                        className="w-full bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 hover:transform hover:scale-101 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50"
                     >
                         {loading ? 'Autenticando...' : 'Entrar na Plataforma'}
                     </button>

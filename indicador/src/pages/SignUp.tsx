@@ -81,7 +81,7 @@ const Signup: React.FC = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-linear-to-r from-cyan-500 to-emerald-500 py-3 rounded-lg text-white font-bold mt-4 hover:scale-[1.02] transition-transform disabled:opacity-50"
+                        className="w-full bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 hover:transform hover:scale-101 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50"
                     >
                         {loading ? 'Processando...' : 'Finalizar Cadastro'}
                     </button>
