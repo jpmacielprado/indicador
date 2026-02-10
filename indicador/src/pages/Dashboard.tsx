@@ -52,8 +52,20 @@ export default function Dashboard() {
 
         socket.onerror = (err) => {
             console.error("Erro no WebSocket:", err);
-            socket.close(); // Fecha para disparar o onclose e a reconexão
+
+            // Teste para Vercel: Se não estiver no localhost, simula dados para os relógios aparecerem
+            if (window.location.hostname !== 'localhost') {
+                setData({
+                    M1: { value: 75, buy: 12, sell: 2, status: "Teste Vercel" },
+                    M5: { value: 40, buy: 5, sell: 8, status: "Aguardando" },
+                    M15: { value: 60, buy: 10, sell: 4, status: "Compra" },
+                    // Adicione os outros timeframes se quiser ver todos ativos
+                });
+            }
+
+            socket.close();
         };
+
 
         socketRef.current = socket;
     };
@@ -88,7 +100,7 @@ export default function Dashboard() {
                         {/* Indicador de Status da Conexão */}
                         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
                             <div className={`h-2 w-2 rounded-full ${statusConn === 'conectado' ? 'bg-emerald-500 animate-pulse' :
-                                    statusConn === 'reconectando' ? 'bg-yellow-500 animate-bounce' : 'bg-rose-500'
+                                statusConn === 'reconectando' ? 'bg-yellow-500 animate-bounce' : 'bg-rose-500'
                                 }`} />
                             <span className="text-[10px] uppercase font-bold tracking-wider text-slate-300">
                                 {statusConn}
