@@ -59,6 +59,11 @@ export default function Dashboard() {
                     M1: { value: 75, buy: 12, sell: 2, status: "Teste Vercel" },
                     M5: { value: 40, buy: 5, sell: 8, status: "Aguardando" },
                     M15: { value: 60, buy: 10, sell: 4, status: "Compra" },
+                    M30: { value: 30, buy: 3, sell: 12, status: "Venda" },
+                    H1: { value: 55, buy: 8, sell: 6, status: "Neutro" },
+                    H4: { value: 80, buy: 15, sell: 1, status: "Forte Compra" },
+                    D1: { value: 20, buy: 2, sell: 10, status: "Forte Venda" },
+                    W1: { value: 50, buy: 7, sell: 7, status: "Indefinido" },
                     // Adicione os outros timeframes se quiser ver todos ativos
                 });
             }
