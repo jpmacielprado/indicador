@@ -20,13 +20,14 @@ const Login: React.FC = () => {
             const response = await api.post('/auth/login', { email, password });
 
             // 2. Recebe o JWT do Back-end
-            const { token } = response.data;
+            const { token, status } = response.data;
 
             // 3. Salva o "crachá" no navegador
             localStorage.setItem('token', token);
+            localStorage.setItem('user_status', status || 'active'); // Se quiser manter o status do usuário
 
             // 4. Manda o usuário para o Indicador
-            navigate('/dashboard');
+            navigate('/indicador');
         } catch (err: any) {
             setError('E-mail ou senha inválidos. Tente novamente.');
         } finally {
