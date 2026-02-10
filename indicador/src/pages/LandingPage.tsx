@@ -347,10 +347,10 @@ export default function LandingPage() {
                                         ))}
                                     </ul>
 
-                                    <button className="w-full mt-auto bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl active:scale-95">
+                                    <a className="w-full mt-auto bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-all shadow-xl active:scale-95" href="LINK_DO_MERCADO_PAGO" target="_blank" >
                                         <ShoppingCart size={22} />
                                         Comprar agora
-                                    </button>
+                                    </a>
                                 </div>
                             </ScrollAnimation>
                         </div>
