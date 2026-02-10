@@ -1,77 +1,96 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Lock, Mail, ArrowRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../services/api'; // Importando o seu "garçom"
 
-export default function Login() {
+const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
+        setLoading(true);
 
-        // SIMULAÇÃO: No futuro, aqui você faz a chamada para sua API
-        if (email && password) {
-            localStorage.setItem('user_status', 'active');
-            navigate('/indicador');
+        try {
+            // 1. Envia os dados para a API Java
+            const response = await api.post('/auth/login', { email, password });
+
+            // 2. Recebe o JWT do Back-end
+            const { token } = response.data;
+
+            // 3. Salva o "crachá" no navegador
+            localStorage.setItem('token', token);
+
+            // 4. Manda o usuário para o Indicador
+            navigate('/dashboard');
+        } catch (err: any) {
+            setError('E-mail ou senha inválidos. Tente novamente.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white flex items-center justify-center p-6">
-            <div className="w-full max-w-md bg-[#111827] border border-slate-800 p-8 rounded-2xl shadow-2xl">
+        <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4">
+            <div className="max-w-md w-full bg-[#0f172a] border border-slate-800 p-8 rounded-2xl shadow-xl">
+
+                {/* Logo/Título */}
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-black uppercase tracking-tighter">Área do <span className="text-emerald-500">Trader</span></h2>
-                    <p className="text-slate-500 text-sm mt-2 font-medium">Insira suas credenciais para acessar o painel</p>
+                    <h2 className="text-3xl font-bold text-white mb-2">Login</h2>
+                    <p className="text-slate-400">Acesse o painel do Indicador Pro</p>
                 </div>
 
-                <form onSubmit={handleLogin} className="space-y-6">
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">E-mail</label>
-                        <div className="relative">
-                            <Mail className="absolute left-3 top-3 text-slate-600" size={18} />
-                            <input
-                                type="email"
-                                required
-                                className="w-full bg-[#0f172a] border border-slate-800 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-emerald-500 transition-all text-sm"
-                                placeholder="seu@email.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
+                {error && (
+                    <div className="bg-red-500/10 border border-red-500 text-red-500 text-sm p-3 rounded-lg mb-6">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">E-mail</label>
+                        <input
+                            type="email"
+                            required
+                            className="w-full bg-[#1e293b] border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                            placeholder="seu@email.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Senha</label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-3 text-slate-600" size={18} />
-                            <input
-                                type="password"
-                                required
-                                className="w-full bg-[#0f172a] border border-slate-800 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-emerald-500 transition-all text-sm"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">Senha</label>
+                        <input
+                            type="password"
+                            required
+                            className="w-full bg-[#1e293b] border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-xl transition-all flex items-center justify-center gap-2 group"
+                        disabled={loading}
+                        className="w-full bg-linear-to-r from-cyan-500 to-emerald-500 hover:from-cyan-600 hover:to-emerald-600 text-white font-bold py-3 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50"
                     >
-                        ENTRAR NO TERMINAL
-                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        {loading ? 'Autenticando...' : 'Entrar na Plataforma'}
                     </button>
                 </form>
 
-                <div className="mt-8 pt-6 border-t border-slate-800/50 text-center">
-                    <p className="text-slate-500 text-xs">
-                        Não tem uma licença?
-                        <button onClick={() => navigate('/')} className="text-emerald-500 ml-1 font-bold hover:underline">Ver Planos</button>
-                    </p>
-                </div>
+                <p className="text-center text-slate-400 mt-8 text-sm">
+                    Ainda não tem acesso?{' '}
+                    <Link to="/signup" className="text-cyan-400 hover:underline">Criar conta</Link>
+                </p>
             </div>
         </div>
     );
-}
+};
+
+export default Login;
