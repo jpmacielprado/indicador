@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AssetSelector } from '../components/AssetSelector';
 import GaugeIndicator from '../components/GaugeIndicator';
 import { CurrencyStrength } from '../components/CurrencyStrength';
@@ -6,10 +7,30 @@ import { CurrencyStrength } from '../components/CurrencyStrength';
 export default function Dashboard() {
     const [selectedAsset, setSelectedAsset] = useState("BTCUSDT");
     const [data, setData] = useState<any>({});
+    const [statusConn, setStatusConn] = useState<'conectado' | 'desconectado' | 'reconectando'>('desconectado');
 
-    // Conexão com o WebSocket (lógica do backend aqui)
-    useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:8000/ws/analise_completa/${selectedAsset}`);
+    const navigate = useNavigate();
+    const socketRef = useRef<WebSocket | null>(null); // Usamos useRef para manter a referência do socket
+
+    const connectWebSocket = () => {
+        const token = localStorage.getItem('token');
+
+        // Se não houver token, nem tenta conectar e manda para o login
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+
+        setStatusConn('reconectando');
+
+        const socket = new WebSocket(
+            `ws://localhost:8000/ws/analise_completa/${selectedAsset}?token=${token}`
+        );
+
+        socket.onopen = () => {
+            console.log("Conectado ao servidor de sinais!");
+            setStatusConn('conectado');
+        };
 
         socket.onmessage = (event) => {
             try {
@@ -20,10 +41,39 @@ export default function Dashboard() {
             }
         };
 
-        return () => socket.close();
+        socket.onclose = () => {
+            setStatusConn('desconectado');
+            console.log("Conexão perdida. Tentando reconectar em 3 segundos...");
+            // Tenta reconectar após 3 segundos
+            setTimeout(() => {
+                connectWebSocket();
+            }, 3000);
+        };
+
+        socket.onerror = (err) => {
+            console.error("Erro no WebSocket:", err);
+            socket.close(); // Fecha para disparar o onclose e a reconexão
+        };
+
+        socketRef.current = socket;
+    };
+
+    useEffect(() => {
+        connectWebSocket();
+
+        // Cleanup: Fecha o socket quando o utilizador muda de ativo ou sai da página
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.close();
+            }
+        };
     }, [selectedAsset]);
 
-    // Labels dos timeframes que queremos exibir
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+    };
+
     const timeframes = ["M1", "M5", "M15", "M30", "H1", "H4", "D1", "W1"];
 
     return (
@@ -34,13 +84,25 @@ export default function Dashboard() {
                 <header className="flex items-center justify-between mb-4 h-12 shrink-0">
                     <div className="flex items-center gap-6">
                         <AssetSelector selected={selectedAsset} onSelect={setSelectedAsset} />
-                        <div className="hidden md:block text-slate-400 text-sm border-l border-slate-700 pl-6 italic">
-                            Licença Ativa | Mensal
+
+                        {/* Indicador de Status da Conexão */}
+                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
+                            <div className={`h-2 w-2 rounded-full ${statusConn === 'conectado' ? 'bg-emerald-500 animate-pulse' :
+                                    statusConn === 'reconectando' ? 'bg-yellow-500 animate-bounce' : 'bg-rose-500'
+                                }`} />
+                            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-300">
+                                {statusConn}
+                            </span>
+                        </div>
+
+                        <div className="hidden md:flex items-center text-slate-400 text-sm border-l border-slate-700 pl-6 italic gap-4">
+                            <span>Licença Ativa</span>
+                            <button onClick={handleLogout} className="not-italic text-xs text-rose-400 hover:text-rose-300">Sair</button>
                         </div>
                     </div>
                 </header>
 
-                {/* ÁREA CENTRAL */}
+                {/* ÁREA DOS RELÓGIOS (GAUGES) */}
                 <div className="flex gap-4 flex-1 overflow-hidden mb-4">
                     <div className="grid grid-cols-4 grid-rows-2 gap-3 flex-1 h-full">
                         {timeframes.map((tf) => (
@@ -57,23 +119,20 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* FOOTER */}
-                <footer className="h-16 border-t border-slate-800 flex flex-col items-center justify-center bg-[#0f172a] shrink-0 px-2 pt-6 gap-4">
-                    <div className="flex gap-10 text-xs font-bold items-center ">
-                        <span className="text-blue-400 uppercase tracking-widest">Resumo:</span>
+                {/* FOOTER COM RESUMO REAL-TIME */}
+                <footer className="h-16 border-t border-slate-800 flex flex-col items-center justify-center bg-[#0f172a] shrink-0 pt-4">
+                    <div className="flex gap-10 text-xs font-bold items-center mb-2">
+                        <span className="text-blue-400 uppercase tracking-widest text-[10px]">Análise Global:</span>
                         <div className="flex gap-6 items-center">
-                            <span className="text-rose-500 font-black">5 VENDAS</span>
-                            <span className="text-emerald-500 font-black">14 COMPRAS</span>
-                            <span className="text-emerald-400 uppercase text-[10px] px-2 py-0.5 border border-emerald-500/30 rounded">5 Compra Forte</span>
+                            <span className="text-rose-500 font-black">{data.vendas || 0} VENDAS</span>
+                            <span className="text-emerald-500 font-black">{data.compras || 0} COMPRAS</span>
+                            <div className="h-4 w-px bg-slate-700" />
+                            <span className="text-cyan-400 uppercase text-[10px]">{selectedAsset}</span>
                         </div>
                     </div>
 
-                    <div className="flex gap-6 text-[10px] text-blue-400/50 uppercase font-medium">
-                        <span>Dados reais atualizados:</span>
-                        <div className="flex gap-4">
-                            <span>📅 {new Date().toLocaleDateString('pt-BR')}</span>
-                            <span>🕒 {new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
+                    <div className="text-[9px] text-slate-500 uppercase tracking-tighter">
+                        Streaming de Dados via WebSocket Ativo • {new Date().toLocaleTimeString()}
                     </div>
                 </footer>
             </main>
