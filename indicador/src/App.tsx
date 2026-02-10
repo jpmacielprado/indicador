@@ -5,17 +5,17 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 
 /**
- * COMPONENTE DE ROTA PRIVADA
- * * Ele verifica se o usuário tem a "assinatura ativa" no localStorage.
- * React.ReactNode é a tipagem correta para resolver o erro 'Cannot find namespace JSX'.
+ * COMPONENTE DE ROTA PRIVADA ATUALIZADO
+ * Agora ele foca na existência do Token JWT.
  */
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  // Simulando a checagem de assinatura
-  const isAuthenticated = localStorage.getItem('user_status') === 'active';
+  // O token é o que prova que o usuário fez login
+  const token = localStorage.getItem('token');
 
-  if (!isAuthenticated) {
-    // Se não tiver assinatura, manda de volta para a Landing Page
-    return <Navigate to="/" replace />;
+  // Se não tiver token, mandamos para o /login em vez da Home
+  // Isso é melhor para a experiência do usuário (UX)
+  if (!token) {
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
@@ -25,10 +25,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Página inicial: Landing Page (Pública) */}
+        {/* --- ROTAS PÚBLICAS --- */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* Área do Indicador: Protegida por assinatura */}
+        {/* --- ROTA PROTEGIDA --- */}
         <Route
           path="/indicador"
           element={
@@ -38,10 +39,9 @@ function App() {
           }
         />
 
-        {/* Rota de segurança: Se o usuário digitar qualquer URL errada, volta para a Landing */}
+        {/* --- FALLBACK --- */}
+        {/* Se o usuário tentar qualquer coisa inexistente, volta para a Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
-
-        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
