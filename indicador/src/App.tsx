@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 /**
  * COMPONENTE DE ROTA PRIVADA ATUALIZADO
@@ -28,6 +29,7 @@ function App() {
         {/* --- ROTAS PÚBLICAS --- */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
 
         {/* --- ROTA PROTEGIDA --- */}
         <Route
