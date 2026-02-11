@@ -86,6 +86,29 @@ export default function Dashboard() {
         };
     }, [selectedAsset]);
 
+    // SIMULADOR PARA APRESENTAÇÃO (DADOS FALSOS)
+    useEffect(() => {
+        if (statusConn !== 'conectado') {
+            const interval = setInterval(() => {
+                setData((prev: any) => ({
+                    ...prev,
+                    M1: { value: Math.floor(Math.random() * 100), buy: 12, sell: 2 },
+                    M5: { value: Math.floor(Math.random() * 100), buy: 8, sell: 5 },
+                    M15: { value: Math.floor(Math.random() * 100), buy: 10, sell: 4 },
+                    M30: { value: Math.floor(Math.random() * 100), buy: 3, sell: 12 },
+                    H1: { value: Math.floor(Math.random() * 100), buy: 6, sell: 9 },
+                    H4: { value: Math.floor(Math.random() * 100), buy: 14, sell: 1 },
+                    D1: { value: Math.floor(Math.random() * 100), buy: 2, sell: 11 },
+                    W1: { value: Math.floor(Math.random() * 100), buy: 7, sell: 7 },
+                    vendas: Math.floor(Math.random() * 30),
+                    compras: Math.floor(Math.random() * 50),
+                }));
+            }, 3000);
+
+            return () => clearInterval(interval);
+        }
+    }, [statusConn]);
+
     const handleLogout = () => {
         localStorage.clear();
         navigate('/login');
