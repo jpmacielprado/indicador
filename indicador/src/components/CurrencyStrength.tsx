@@ -1,41 +1,64 @@
+// Função auxiliar para definir cores baseada na força (0 a 10)
+const getStrengthConfig = (val: number) => {
+  if (val <= 2.0) return { color: "bg-rose-600", text: "text-rose-600" };   // Venda Forte
+  if (val <= 4.5) return { color: "bg-rose-400", text: "text-rose-400" };   // Venda
+  if (val <= 5.5) return { color: "bg-slate-400", text: "text-slate-400" }; // Neutro
+  if (val <= 8.0) return { color: "bg-emerald-400", text: "text-emerald-400" }; // Compra
+  return { color: "bg-emerald-600", text: "text-emerald-600" };            // Compra Forte
+};
+
 const STRENGTH_DATA = [
-  { coin: "USD", val: 7.2, color: "bg-emerald-500", flag: "🇺🇸" },
-  { coin: "GBP", val: 6.8, color: "bg-emerald-600", flag: "🇬🇧" },
-  { coin: "AUD", val: 5.9, color: "bg-emerald-700", flag: "🇦🇺" },
-  { coin: "EUR", val: 5.9, color: "bg-emerald-700", flag: "🇪🇺" },
-  { coin: "NZD", val: 4.3, color: "bg-yellow-500", flag: "🇳🇿" },
-  { coin: "CHF", val: 3.6, color: "bg-yellow-600", flag: "🇨🇭" },
-  { coin: "CAD", val: 2.8, color: "bg-rose-500", flag: "🇨🇦" },
-  { coin: "JPY", val: 2.4, color: "bg-rose-600", flag: "🇯🇵" },
+  { coin: "USD", val: 8.5, flag: "🇺🇸" },
+  { coin: "GBP", val: 6.8, flag: "🇬🇧" },
+  { coin: "AUD", val: 5.2, flag: "🇦🇺" },
+  { coin: "EUR", val: 5.0, flag: "🇪🇺" },
+  { coin: "NZD", val: 4.3, flag: "🇳🇿" },
+  { coin: "CHF", val: 3.6, flag: "🇨🇭" },
+  { coin: "CAD", val: 1.8, flag: "🇨🇦" },
+  { coin: "JPY", val: 0.9, flag: "🇯🇵" },
 ];
 
 export function CurrencyStrength() {
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-lg p-4 w-full min-w-65 h-full flex flex-col">
-      <h3 className="text-slate-300 text-xs font-black mb-6 text-center uppercase tracking-[0.2em] border-b border-slate-800 pb-4">
-        Classificação da moeda
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-4 w-full min-w-65 h-full flex flex-col shadow-lg">
+      <h3 className="text-slate-300 text-[10px] font-black mb-6 text-center uppercase tracking-[0.3em] border-b border-slate-800/50 pb-4">
+        Força Relativa da Moeda
       </h3>
 
       <div className="flex-1 flex flex-col justify-around">
-        {STRENGTH_DATA.map((item) => (
-          <div key={item.coin} className="flex items-center gap-4 py-1">
-            <div className="flex items-center gap-2 w-14">
-              <span className="text-lg">{item.flag}</span>
-              <span className="text-sm font-black text-white">{item.coin}</span>
-            </div>
+        {STRENGTH_DATA.map((item) => {
+          const config = getStrengthConfig(item.val);
 
-            <div className="flex-1 bg-slate-800 h-3 rounded-full overflow-hidden border border-slate-700">
-              <div
-                className={`${item.color} h-full rounded-full transition-all duration-1000`}
-                style={{ width: `${item.val * 10}%` }}
-              />
-            </div>
+          return (
+            <div key={item.coin} className="flex items-center gap-4 py-1 group">
+              {/* Moeda e Bandeira */}
+              <div className="flex items-center gap-2 w-14 shrink-0">
+                <span className="text-lg group-hover:scale-110 transition-transform">{item.flag}</span>
+                <span className="text-sm font-black text-white">{item.coin}</span>
+              </div>
 
-            <span className={`text-sm font-black w-8 text-right ${item.val > 5 ? 'text-emerald-500' : 'text-rose-500'}`}>
-              {item.val.toFixed(1)}
-            </span>
-          </div>
-        ))}
+              {/* Barra de Progresso */}
+              <div className="flex-1 bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+                <div
+                  className={`${config.color} h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(0,0,0,0.5)]`}
+                  style={{ width: `${item.val * 10}%` }}
+                />
+              </div>
+
+              {/* Valor Numérico */}
+              <span className={`text-sm font-black w-8 text-right transition-colors ${config.text}`}>
+                {item.val.toFixed(1)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Legenda rápida opcional */}
+      <div className="mt-4 flex justify-between text-[8px] text-slate-500 font-bold uppercase tracking-tighter italic">
+        <span>Fraco</span>
+        <span>Neutro</span>
+        <span>Forte</span>
       </div>
     </div>
   );
