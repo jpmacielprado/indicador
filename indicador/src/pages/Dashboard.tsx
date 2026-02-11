@@ -10,7 +10,7 @@ export default function Dashboard() {
     const [statusConn, setStatusConn] = useState<'conectado' | 'desconectado' | 'reconectando'>('desconectado');
 
     const navigate = useNavigate();
-    const socketRef = useRef<WebSocket | null>(null); // Usamos useRef para manter a referência do socket
+    const socketRef = useRef<WebSocket | null>(null);
 
     const connectWebSocket = () => {
         const token = localStorage.getItem('token');
@@ -90,6 +90,11 @@ export default function Dashboard() {
     useEffect(() => {
         if (statusConn !== 'conectado') {
             const interval = setInterval(() => {
+                const mockCoins = ["USD", "GBP", "AUD", "EUR", "NZD", "CHF", "CAD", "JPY"].map(coin => ({
+                    coin,
+                    val: Number((Math.random() * 9 + 0.5).toFixed(1))
+                })).sort((a, b) => b.val - a.val);
+
                 setData((prev: any) => ({
                     ...prev,
                     M1: { value: Math.floor(Math.random() * 100), buy: 12, sell: 2 },
@@ -102,6 +107,7 @@ export default function Dashboard() {
                     W1: { value: Math.floor(Math.random() * 100), buy: 7, sell: 7 },
                     vendas: Math.floor(Math.random() * 30),
                     compras: Math.floor(Math.random() * 50),
+                    currencyStrength: mockCoins
                 }));
             }, 3000);
 
@@ -155,7 +161,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="h-full flex flex-col shrink-0">
-                        <CurrencyStrength />
+                        <CurrencyStrength strengthData={data.currencyStrength} />
                     </div>
                 </div>
 
