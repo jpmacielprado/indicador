@@ -11,8 +11,18 @@ interface GaugeProps {
 }
 
 export default function GaugeIndicator({ label, data }: GaugeProps) {
-  const { value, buy, sell, status } = data;
-  const isBuy = value > 50;
+  const { value, buy, sell } = data;
+
+  // Lógica de Escala e Cores solicitada
+  const getStatusConfig = (val: number) => {
+    if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" }; // Rose 600
+    if (val <= 45) return { label: "VENDA", color: "#fb7185", textClass: "text-rose-400" };       // Rose 400
+    if (val <= 55) return { label: "NEUTRO", color: "#94a3b8", textClass: "text-slate-400" };     // Slate 400
+    if (val <= 80) return { label: "COMPRA", color: "#34d399", textClass: "text-emerald-400" };   // Emerald 400
+    return { label: "COMPRA FORTE", color: "#059669", textClass: "text-emerald-600" };           // Emerald 600
+  };
+
+  const config = getStatusConfig(value);
 
   const options: ApexCharts.ApexOptions = {
     chart: {
@@ -42,12 +52,12 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
       },
     },
     fill: {
-      colors: [isBuy ? "#10b981" : "#f43f5e"],
+      colors: [config.color], // Cor dinâmica baseada na escala
       type: 'gradient',
       gradient: {
         shade: 'dark',
         type: 'horizontal',
-        gradientToColors: [isBuy ? "#34d399" : "#fb7185"],
+        gradientToColors: [config.color],
         stops: [0, 100]
       }
     },
@@ -75,9 +85,9 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         />
       </div>
 
-      {/* Status da Operação */}
-      <div className={`text-[13px] font-black uppercase mb-2 tracking-[0.15em] ${isBuy ? "text-emerald-500" : "text-rose-500"}`}>
-        {status || (isBuy ? "Comprar" : "Vender")}
+      {/* Status da Operação Dinâmico */}
+      <div className={`text-[13px] font-black uppercase mb-2 tracking-[0.15em] ${config.textClass}`}>
+        {config.label}
       </div>
 
       {/* Grid Inferior */}
