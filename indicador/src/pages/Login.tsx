@@ -88,6 +88,8 @@ const Login: React.FC = () => {
                 <p className="text-center text-slate-400 mt-8 text-sm">
                     Ainda não tem acesso?{' '}
                     <Link to="/signup" className="text-cyan-400 hover:underline">Criar conta</Link>
+                    <br />
+                    <Link to="/" className="text-cyan-400 hover:underline">Voltar</Link>
                 </p>
             </div>
         </div>

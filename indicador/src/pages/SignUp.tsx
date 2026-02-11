@@ -89,7 +89,11 @@ const Signup: React.FC = () => {
 
                 <p className="text-center text-slate-400 mt-6 text-sm">
                     Já tem uma conta? <Link to="/login" className="text-cyan-400 hover:underline">Entrar</Link>
+                    <br />
+                    <Link to="/" className="text-cyan-400 hover:underline">Voltar</Link>
                 </p>
+
+
             </div>
         </div>
     );
