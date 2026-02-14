@@ -22,8 +22,8 @@ function useChartDimensions() {
   useEffect(() => {
     const update = () => {
       const h = window.innerHeight;
-      if (h >= 1080) setDims({ height: 240, fontSize: "38px", offsetY: 6 });
-      else if (h >= 900) setDims({ height: 200, fontSize: "32px", offsetY: 5 });
+      if (h >= 1080) setDims({ height: 290, fontSize: "44px", offsetY: 8 });
+      else if (h >= 900) setDims({ height: 250, fontSize: "38px", offsetY: 6 });
       else if (h >= 768) setDims({ height: 130, fontSize: "23px", offsetY: 2 });
       else               setDims({ height: 105, fontSize: "20px", offsetY: 2 });
     };

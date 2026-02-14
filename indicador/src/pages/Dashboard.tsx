@@ -166,8 +166,8 @@ export default function Dashboard() {
                 </div>
 
                 {/* FOOTER COM RESUMO REAL-TIME */}
-                <footer className="h-16 border-t border-slate-800 flex flex-col items-center justify-center bg-[#0f172a] shrink-0 pt-4">
-                    <div className="flex gap-10 text-xs font-bold items-center mb-2">
+                <footer className="h-10 border-t border-slate-800 flex items-center justify-center bg-[#0f172a] shrink-0">
+                    <div className="flex gap-10 text-xs font-bold items-center">
                         <span className="text-blue-400 uppercase tracking-widest text-[10px]">Análise Global:</span>
                         <div className="flex gap-6 items-center">
                             <span className="text-rose-500 font-black">{data.vendas || 0} VENDAS</span>
@@ -175,10 +175,9 @@ export default function Dashboard() {
                             <div className="h-4 w-px bg-slate-700" />
                             <span className="text-cyan-400 uppercase text-[10px]">{selectedAsset}</span>
                         </div>
-                    </div>
-
-                    <div className="text-[9px] text-slate-500 uppercase tracking-tighter">
-                        Streaming de Dados via WebSocket Ativo • {new Date().toLocaleTimeString()}
+                        <span className="text-[9px] text-slate-500 uppercase tracking-tighter">
+                            WebSocket Ativo • {new Date().toLocaleTimeString()}
+                        </span>
                     </div>
                 </footer>
             </main>
