@@ -107,15 +107,15 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
 
       {/* Grid Inferior */}
       <div className="grid grid-cols-3 w-full border-t border-slate-800/60 mt-1.5 shrink-0">
-        <div className="text-center py-1 xl:py-2 2xl:py-3">
+        <div className="text-center py-0.5 xl:py-2 2xl:py-3">
           <span className="text-rose-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Sell</span>
           <span className="text-rose-400 text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">{sell}</span>
         </div>
-        <div className="text-center py-1 xl:py-2 2xl:py-3 border-x border-slate-800/40">
+        <div className="text-center py-0.5 xl:py-2 2xl:py-3 border-x border-slate-800/40">
           <span className="text-slate-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Neu</span>
           <span className="text-white text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">14</span>
         </div>
-        <div className="text-center py-1 xl:py-2 2xl:py-3">
+        <div className="text-center py-0.5 xl:py-2 2xl:py-3">
           <span className="text-emerald-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Buy</span>
           <span className="text-emerald-400 text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">{buy}</span>
         </div>
