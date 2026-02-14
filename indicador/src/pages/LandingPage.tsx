@@ -94,7 +94,7 @@ export default function LandingPage() {
         },
         {
             question: "O acesso é vitalício?",
-            answer: "Sim! Ao adquirir o plano atual, você garante acesso permanente à plataforma e a todas as atualizações futuras sem custos adicionais."
+            answer: "Não! Você poderá escolher entre a opção do plano semestral ou anual, podendo renovar o acesso ao final do período escolhido. Assim, garantimos que você sempre tenha acesso a uma ferramenta atualizada e de qualidade."
         },
         {
             question: "Funciona em quais dispositivos?",
@@ -102,7 +102,7 @@ export default function LandingPage() {
         },
         {
             question: "Como recebo o acesso?",
-            answer: "Imediatamente após a confirmação do pagamento, você receberá um e-mail com seus dados de login e um guia rápido de início."
+            answer: "Para realizar o pagamento você precisará ter uma conta criada em nossa plataforma, e ao finalizar a compra, o acesso é liberado automaticamente para o seu perfil, podendo ser utilizado imediatamente."
         }
     ];
 
@@ -166,7 +166,7 @@ export default function LandingPage() {
                                 <TrendingUp className="text-blue-500" size={32} />
                             </div>
                             <h3 className="text-xl font-bold mb-3">Multi-Timeframe</h3>
-                            <p className="text-slate-400 text-sm">Monitore de M1 a Mensal simultaneamente para encontrar o ponto exato de entrada.</p>
+                            <p className="text-slate-400 text-sm">Monitore de M1 a Semanal simultaneamente para encontrar o ponto exato de entrada.</p>
                         </div>
                     </ScrollAnimation>
 
