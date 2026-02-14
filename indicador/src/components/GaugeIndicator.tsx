@@ -1,4 +1,6 @@
+"use client";
 import Chart from "react-apexcharts";
+import { useEffect, useState } from "react";
 
 interface GaugeProps {
   label: string;
@@ -8,11 +10,30 @@ interface GaugeProps {
     sell: number;
     status: string;
   };
-  screenSize?: "default" | "2xl";
 }
 
-export default function GaugeIndicator({ label, data, screenSize = "default" }: GaugeProps) {
+function useChartDimensions() {
+  const [dims, setDims] = useState({ height: 140, fontSize: "24px" });
+
+  useEffect(() => {
+    const update = () => {
+      const h = window.innerHeight;
+      if (h >= 1080) setDims({ height: 200, fontSize: "32px" });
+      else if (h >= 900) setDims({ height: 175, fontSize: "28px" });
+      else if (h >= 768) setDims({ height: 155, fontSize: "25px" });
+      else setDims({ height: 130, fontSize: "22px" });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return dims;
+}
+
+export default function GaugeIndicator({ label, data }: GaugeProps) {
   const { value, buy, sell } = data;
+  const { height: chartHeight, fontSize } = useChartDimensions();
 
   const getStatusConfig = (val: number) => {
     if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" };
@@ -23,8 +44,6 @@ export default function GaugeIndicator({ label, data, screenSize = "default" }: 
   };
 
   const config = getStatusConfig(value);
-  const chartHeight = screenSize === "2xl" ? 180 : 120;
-  const fontSize = screenSize === "2xl" ? "28px" : "22px";
 
   const options: ApexCharts.ApexOptions = {
     chart: {
@@ -54,25 +73,20 @@ export default function GaugeIndicator({ label, data, screenSize = "default" }: 
         },
       },
     },
-    fill: {
-      colors: [config.color],
-      type: "solid",
-    },
-    stroke: {
-      lineCap: "round",
-    },
+    fill: { colors: [config.color], type: "solid" },
+    stroke: { lineCap: "round" },
   };
 
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-2 2xl:p-4 flex flex-col items-center justify-between h-full min-h-44 2xl:min-h-64 shadow-lg transition-all hover:border-slate-600 overflow-hidden">
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-2 2xl:p-4 flex flex-col items-center justify-between h-full shadow-lg transition-all hover:border-slate-600 overflow-hidden">
 
       {/* Timeframe Label */}
-      <h2 className="text-white font-black text-base xl:text-lg 2xl:text-2xl uppercase tracking-[0.15em] xl:tracking-[0.2em] 2xl:tracking-[0.25em] mt-1 drop-shadow-md">
+      <h2 className="text-white font-black text-base xl:text-lg 2xl:text-2xl uppercase tracking-[0.15em] xl:tracking-[0.2em] mt-1 drop-shadow-md shrink-0">
         {label}
       </h2>
 
       {/* Container do Gráfico */}
-      <div className="w-full flex justify-center items-center -my-1 2xl:my-1">
+      <div className="w-full flex justify-center items-center shrink-0">
         <Chart
           options={options}
           series={[value]}
@@ -83,25 +97,23 @@ export default function GaugeIndicator({ label, data, screenSize = "default" }: 
       </div>
 
       {/* Status da Operação */}
-      <div className={`text-[11px] xl:text-[13px] 2xl:text-base font-black uppercase mt-3 mb-2 2xl:mt-4 2xl:mb-3 tracking-wide xl:tracking-widest 2xl:tracking-[0.2em] ${config.textClass}`}>
+      <div className={`text-[11px] xl:text-[13px] 2xl:text-base font-black uppercase tracking-wide xl:tracking-widest shrink-0 ${config.textClass}`}>
         {config.label}
       </div>
 
-      {/* Grid Inferior - Dados de Venda/Compra */}
-      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2 pb-1 2xl:pt-3 2xl:pb-2 mt-auto">
+      {/* Grid Inferior */}
+      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2 2xl:pt-3 pb-1 mt-auto shrink-0">
         <div className="text-center">
           <span className="text-rose-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Sell</span>
-          <span className="text-rose-400 text-xs xl:text-sm 2xl:text-lg font-black">{sell}</span>
+          <span className="text-rose-400 text-xs xl:text-sm 2xl:text-base font-black">{sell}</span>
         </div>
-
         <div className="text-center border-x border-slate-800/40 px-1">
           <span className="text-slate-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Neu</span>
-          <span className="text-white text-xs xl:text-sm 2xl:text-lg font-black">14</span>
+          <span className="text-white text-xs xl:text-sm 2xl:text-base font-black">14</span>
         </div>
-
         <div className="text-center">
           <span className="text-emerald-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Buy</span>
-          <span className="text-emerald-400 text-xs xl:text-sm 2xl:text-lg font-black">{buy}</span>
+          <span className="text-emerald-400 text-xs xl:text-sm 2xl:text-base font-black">{buy}</span>
         </div>
       </div>
     </div>
