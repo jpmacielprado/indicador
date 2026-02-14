@@ -13,15 +13,19 @@ interface GaugeProps {
 }
 
 function useChartDimensions() {
-  const [dims, setDims] = useState({ height: 140, fontSize: "24px" });
+  const [dims, setDims] = useState({
+    height: 120,
+    fontSize: "22px",
+    offsetY: 2,
+  });
 
   useEffect(() => {
     const update = () => {
       const h = window.innerHeight;
-      if (h >= 1080) setDims({ height: 200, fontSize: "32px" });
-      else if (h >= 900) setDims({ height: 175, fontSize: "28px" });
-      else if (h >= 768) setDims({ height: 155, fontSize: "25px" });
-      else setDims({ height: 130, fontSize: "22px" });
+      if (h >= 1080) setDims({ height: 190, fontSize: "30px", offsetY: 4 });
+      else if (h >= 900) setDims({ height: 160, fontSize: "26px", offsetY: 3 });
+      else if (h >= 768) setDims({ height: 130, fontSize: "23px", offsetY: 2 });
+      else setDims({ height: 105, fontSize: "20px", offsetY: 2 });
     };
     update();
     window.addEventListener("resize", update);
@@ -33,7 +37,7 @@ function useChartDimensions() {
 
 export default function GaugeIndicator({ label, data }: GaugeProps) {
   const { value, buy, sell } = data;
-  const { height: chartHeight, fontSize } = useChartDimensions();
+  const { height: chartHeight, fontSize, offsetY } = useChartDimensions();
 
   const getStatusConfig = (val: number) => {
     if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" };
@@ -64,7 +68,7 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         dataLabels: {
           name: { show: false },
           value: {
-            offsetY: 4,
+            offsetY,
             fontSize,
             fontWeight: "900",
             color: "#fff",
@@ -78,15 +82,15 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
   };
 
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-2 2xl:p-4 flex flex-col items-center justify-between h-full shadow-lg transition-all hover:border-slate-600 overflow-hidden">
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl flex flex-col items-center justify-between h-full shadow-lg transition-all hover:border-slate-600">
 
       {/* Timeframe Label */}
-      <h2 className="text-white font-black text-base xl:text-lg 2xl:text-2xl uppercase tracking-[0.15em] xl:tracking-[0.2em] mt-1 drop-shadow-md shrink-0">
+      <h2 className="text-white font-black text-sm xl:text-base 2xl:text-2xl uppercase tracking-[0.15em] xl:tracking-[0.2em] pt-2 2xl:pt-4 drop-shadow-md shrink-0">
         {label}
       </h2>
 
       {/* Container do Gráfico */}
-      <div className="w-full flex justify-center items-center shrink-0">
+      <div className="w-full flex justify-center items-center shrink-0 -mb-2">
         <Chart
           options={options}
           series={[value]}
@@ -97,23 +101,23 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
       </div>
 
       {/* Status da Operação */}
-      <div className={`text-[11px] xl:text-[13px] 2xl:text-base font-black uppercase tracking-wide xl:tracking-widest shrink-0 ${config.textClass}`}>
+      <div className={`text-[10px] xl:text-[12px] 2xl:text-base font-black uppercase tracking-wide xl:tracking-widest shrink-0 ${config.textClass}`}>
         {config.label}
       </div>
 
       {/* Grid Inferior */}
-      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2 2xl:pt-3 pb-1 mt-auto shrink-0">
-        <div className="text-center">
-          <span className="text-rose-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Sell</span>
-          <span className="text-rose-400 text-xs xl:text-sm 2xl:text-base font-black">{sell}</span>
+      <div className="grid grid-cols-3 w-full border-t border-slate-800/60 mt-1.5 shrink-0">
+        <div className="text-center py-1 xl:py-1.5 2xl:py-2">
+          <span className="text-rose-500 block text-[7px] xl:text-[8px] 2xl:text-[10px] uppercase font-bold opacity-70">Sell</span>
+          <span className="text-rose-400 text-[11px] xl:text-xs 2xl:text-base font-black leading-tight">{sell}</span>
         </div>
-        <div className="text-center border-x border-slate-800/40 px-1">
-          <span className="text-slate-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Neu</span>
-          <span className="text-white text-xs xl:text-sm 2xl:text-base font-black">14</span>
+        <div className="text-center py-1 xl:py-1.5 2xl:py-2 border-x border-slate-800/40">
+          <span className="text-slate-500 block text-[7px] xl:text-[8px] 2xl:text-[10px] uppercase font-bold opacity-70">Neu</span>
+          <span className="text-white text-[11px] xl:text-xs 2xl:text-base font-black leading-tight">14</span>
         </div>
-        <div className="text-center">
-          <span className="text-emerald-500 block text-[8px] 2xl:text-[11px] uppercase font-bold opacity-70">Buy</span>
-          <span className="text-emerald-400 text-xs xl:text-sm 2xl:text-base font-black">{buy}</span>
+        <div className="text-center py-1 xl:py-1.5 2xl:py-2">
+          <span className="text-emerald-500 block text-[7px] xl:text-[8px] 2xl:text-[10px] uppercase font-bold opacity-70">Buy</span>
+          <span className="text-emerald-400 text-[11px] xl:text-xs 2xl:text-base font-black leading-tight">{buy}</span>
         </div>
       </div>
     </div>
