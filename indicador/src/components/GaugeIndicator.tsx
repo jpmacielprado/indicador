@@ -13,13 +13,13 @@ interface GaugeProps {
 export default function GaugeIndicator({ label, data }: GaugeProps) {
   const { value, buy, sell } = data;
 
-  // Lógica de Escala e Cores solicitada
+  // Lógica de Escala e Cores
   const getStatusConfig = (val: number) => {
-    if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" }; // Rose 600
-    if (val <= 45) return { label: "VENDA", color: "#fb7185", textClass: "text-rose-400" };       // Rose 400
-    if (val <= 55) return { label: "NEUTRO", color: "#94a3b8", textClass: "text-slate-400" };     // Slate 400
-    if (val <= 80) return { label: "COMPRA", color: "#34d399", textClass: "text-emerald-400" };   // Emerald 400
-    return { label: "COMPRA FORTE", color: "#059669", textClass: "text-emerald-600" };           // Emerald 600
+    if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" };
+    if (val <= 45) return { label: "VENDA", color: "#fb7185", textClass: "text-rose-400" };
+    if (val <= 55) return { label: "NEUTRO", color: "#94a3b8", textClass: "text-slate-400" };
+    if (val <= 80) return { label: "COMPRA", color: "#34d399", textClass: "text-emerald-400" };
+    return { label: "COMPRA FORTE", color: "#059669", textClass: "text-emerald-600" };
   };
 
   const config = getStatusConfig(value);
@@ -34,16 +34,17 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
       radialBar: {
         startAngle: -90,
         endAngle: 90,
+        hollow: { size: '60%' },
         track: {
           background: "#1e293b",
-          strokeWidth: "85%",
-          margin: 5
+          strokeWidth: "95%",
+          margin: 3
         },
         dataLabels: {
           name: { show: false },
           value: {
-            offsetY: -2,
-            fontSize: "22px",
+            offsetY: 1,
+            fontSize: "20px",
             fontWeight: "900",
             color: "#fff",
             formatter: () => value + "%",
@@ -52,14 +53,8 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
       },
     },
     fill: {
-      colors: [config.color], // Cor dinâmica baseada na escala
-      type: 'gradient',
-      gradient: {
-        shade: 'dark',
-        type: 'horizontal',
-        gradientToColors: [config.color],
-        stops: [0, 100]
-      }
+      colors: [config.color],
+      type: 'solid',
     },
     stroke: {
       lineCap: "round"
@@ -67,44 +62,44 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
   };
 
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-between h-full min-h-45 shadow-lg transition-all hover:border-slate-600 overflow-hidden">
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl p-2 md:p-3 flex flex-col items-center justify-between h-full min-h-47.5 lg:min-h-55 shadow-lg transition-all hover:border-slate-600 overflow-hidden">
 
       {/* Timeframe Label */}
-      <h2 className="text-white font-black text-xl uppercase tracking-[0.2em] mt-0 drop-shadow-md">
+      <h2 className="text-white font-black text-sm md:text-base lg:text-xl uppercase tracking-[0.2em] mt-1 drop-shadow-md">
         {label}
       </h2>
 
       {/* Container do Gráfico */}
-      <div className="w-full -my-4 flex justify-center items-center">
+      <div className="w-full my-4 lg:-my-3 flex justify-center items-center">
         <Chart
           options={options}
           series={[value]}
           type="radialBar"
-          height={160}
+          height={140}
           width="100%"
         />
       </div>
 
-      {/* Status da Operação Dinâmico */}
-      <div className={`text-[13px] font-black uppercase mb-2 tracking-[0.15em] ${config.textClass}`}>
+      {/* Status da Operação */}
+      <div className={`text-[10px] lg:text-[13px] font-black uppercase mt-7 mb-2 tracking-widestlg:tracking-[0.15em] ${config.textClass}`}>
         {config.label}
       </div>
 
-      {/* Grid Inferior */}
-      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2">
+      {/* Grid Inferior - Dados de Venda/Compra */}
+      <div className="grid grid-cols-3 w-full gap-1 border-t border-slate-800/60 pt-2 pb-1 mt-auto">
         <div className="text-center">
-          <span className="text-rose-500 block text-[8px] uppercase font-bold opacity-70">Sell</span>
-          <span className="text-rose-400 text-sm font-black">{sell}</span>
+          <span className="text-rose-500 block text-[7px] lg:text-[8px] uppercase font-bold opacity-70">Sell</span>
+          <span className="text-rose-400 text-xs lg:text-sm font-black">{sell}</span>
         </div>
 
         <div className="text-center border-x border-slate-800/40 px-1">
-          <span className="text-slate-500 block text-[8px] uppercase font-bold opacity-70">Neu</span>
-          <span className="text-white text-sm font-black">14</span>
+          <span className="text-slate-500 block text-[7px] lg:text-[8px] uppercase font-bold opacity-70">Neu</span>
+          <span className="text-white text-xs lg:text-sm font-black">14</span>
         </div>
 
         <div className="text-center">
-          <span className="text-emerald-500 block text-[8px] uppercase font-bold opacity-70">Buy</span>
-          <span className="text-emerald-400 text-sm font-black">{buy}</span>
+          <span className="text-emerald-500 block text-[7px] lg:text-[8px] uppercase font-bold opacity-70">Buy</span>
+          <span className="text-emerald-400 text-xs lg:text-sm font-black">{buy}</span>
         </div>
       </div>
     </div>
