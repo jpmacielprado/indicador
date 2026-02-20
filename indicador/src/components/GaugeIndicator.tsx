@@ -15,18 +15,20 @@ interface GaugeProps {
 function useChartDimensions() {
   const [dims, setDims] = useState({
     height: 120,
-    fontSize: "22px",
+    fontSize: "20px",
     offsetY: 2,
   });
 
   useEffect(() => {
     const update = () => {
-      const h = window.innerHeight;
-      if (h >= 1080) setDims({ height: 290, fontSize: "44px", offsetY: 8 });
-      else if (h >= 900) setDims({ height: 250, fontSize: "38px", offsetY: 6 });
-      else if (h >= 768) setDims({ height: 130, fontSize: "23px", offsetY: 2 });
-      else               setDims({ height: 105, fontSize: "20px", offsetY: 2 });
+      const w = window.innerWidth;
+
+      if (w >= 1920) setDims({ height: 280, fontSize: "40px", offsetY: 10 });
+      else if (w >= 1440) setDims({ height: 200, fontSize: "30px", offsetY: 8 });
+      else if (w >= 1024) setDims({ height: 140, fontSize: "22px", offsetY: 4 });
+      else setDims({ height: 110, fontSize: "18px", offsetY: 2 });
     };
+
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -41,10 +43,10 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
 
   const getStatusConfig = (val: number) => {
     if (val <= 20) return { label: "VENDA FORTE", color: "#e11d48", textClass: "text-rose-600" };
-    if (val <= 45) return { label: "VENDA",        color: "#fb7185", textClass: "text-rose-400" };
-    if (val <= 55) return { label: "NEUTRO",       color: "#94a3b8", textClass: "text-slate-400" };
-    if (val <= 80) return { label: "COMPRA",       color: "#34d399", textClass: "text-emerald-400" };
-    return              { label: "COMPRA FORTE",  color: "#059669", textClass: "text-emerald-600" };
+    if (val <= 45) return { label: "VENDA", color: "#fb7185", textClass: "text-rose-400" };
+    if (val <= 55) return { label: "NEUTRO", color: "#94a3b8", textClass: "text-slate-400" };
+    if (val <= 80) return { label: "COMPRA", color: "#34d399", textClass: "text-emerald-400" };
+    return { label: "COMPRA FORTE", color: "#059669", textClass: "text-emerald-600" };
   };
 
   const config = getStatusConfig(value);
@@ -68,8 +70,8 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         dataLabels: {
           name: { show: false },
           value: {
-            offsetY,
-            fontSize,
+            offsetY: offsetY,
+            fontSize: fontSize,
             fontWeight: "900",
             color: "#fff",
             formatter: () => value + "%",
@@ -82,16 +84,16 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
   };
 
   return (
-    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl flex flex-col items-center justify-between h-full shadow-lg transition-all hover:border-slate-600">
+    <div className="bg-[#111827]/80 border border-slate-800 rounded-xl flex flex-col items-center justify-between h-full shadow-lg transition-all hover:border-slate-600 overflow-hidden">
 
-      {/* Timeframe Label */}
-      <h2 className="text-white font-black text-sm xl:text-xl 2xl:text-3xl uppercase tracking-[0.15em] xl:tracking-[0.2em] pt-2 xl:pt-3 2xl:pt-5 drop-shadow-md shrink-0">
+      <h2 className="text-white font-black text-sm xl:text-lg 2xl:text-2xl uppercase tracking-[0.15em] pt-3 drop-shadow-md shrink-0 ">
         {label}
       </h2>
 
       {/* Container do Gráfico */}
-      <div className="w-full flex justify-center items-center shrink-0 -mb-2">
+      <div className="w-full flex justify-center items-center flex-1">
         <Chart
+          key={`${chartHeight}-${fontSize}`}
           options={options}
           series={[value]}
           type="radialBar"
@@ -100,24 +102,22 @@ export default function GaugeIndicator({ label, data }: GaugeProps) {
         />
       </div>
 
-      {/* Status da Operação */}
-      <div className={`text-[10px] xl:text-sm 2xl:text-lg font-black uppercase tracking-wide xl:tracking-widest shrink-0 ${config.textClass}`}>
+      <div className={`text-[10px] xl:text-xs 2xl:text-base font-black uppercase tracking-wide mb-8 shrink-0 ${config.textClass}`}>
         {config.label}
       </div>
 
-      {/* Grid Inferior */}
-      <div className="grid grid-cols-3 w-full border-t border-slate-800/60 mt-1.5 shrink-0">
-        <div className="text-center py-0.5 xl:py-2 2xl:py-3">
-          <span className="text-rose-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Sell</span>
-          <span className="text-rose-400 text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">{sell}</span>
+      <div className="grid grid-cols-3 w-full border-t border-slate-800/60 shrink-0">
+        <div className="text-center py-1 2xl:py-3">
+          <span className="text-rose-500 block text-[7px] 2xl:text-xs uppercase font-bold opacity-70">Sell</span>
+          <span className="text-rose-400 text-[10px] 2xl:text-lg font-black leading-tight">{sell}</span>
         </div>
-        <div className="text-center py-0.5 xl:py-2 2xl:py-3 border-x border-slate-800/40">
-          <span className="text-slate-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Neu</span>
-          <span className="text-white text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">14</span>
+        <div className="text-center py-1 2xl:py-3 border-x border-slate-800/40">
+          <span className="text-slate-500 block text-[7px] 2xl:text-xs uppercase font-bold opacity-70">Neu</span>
+          <span className="text-white text-[10px] 2xl:text-lg font-black leading-tight">14</span>
         </div>
-        <div className="text-center py-0.5 xl:py-2 2xl:py-3">
-          <span className="text-emerald-500 block text-[7px] xl:text-[9px] 2xl:text-xs uppercase font-bold opacity-70">Buy</span>
-          <span className="text-emerald-400 text-[11px] xl:text-sm 2xl:text-lg font-black leading-tight">{buy}</span>
+        <div className="text-center py-1 2xl:py-3">
+          <span className="text-emerald-500 block text-[7px] 2xl:text-xs uppercase font-bold opacity-70">Buy</span>
+          <span className="text-emerald-400 text-[10px] 2xl:text-lg font-black leading-tight">{buy}</span>
         </div>
       </div>
     </div>
