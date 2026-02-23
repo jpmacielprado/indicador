@@ -1,7 +1,7 @@
 import { MousePointer2, Search, TrendingUp } from 'lucide-react';
-import Work1 from '../assets/work1.svg';
-import Work2 from '../assets/work2.svg';
-import Work3 from '../assets/work3.svg';
+import Work1 from '../../assets/work1.svg';
+import Work2 from '../../assets/work2.svg';
+import Work3 from '../../assets/work3.svg';
 import { ScrollAnimation } from '../ScrollAnimation';
 import { motion } from 'framer-motion';
 import { GlowOrb, BackgroundGrid, NoiseLayer, CornerAccent } from './ui';
