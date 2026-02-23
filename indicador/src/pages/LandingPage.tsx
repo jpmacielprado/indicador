@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Banner from '../components/Banner';
 import { SectionDivider } from '../components/landing/ui';
-
 import HeroSection      from '../components/landing/HeroSection';
 import FeaturesSection  from '../components/landing/FeaturesSection';
 import HowItWorksSection from '../components/landing/HowItWorksSection';

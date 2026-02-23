@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import Graph from '../assets/graph.svg';
+import Graph from '../../assets/graph.svg';
 import { ScrollAnimation } from '../ScrollAnimation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
