@@ -127,7 +127,7 @@ export default function Dashboard() {
             <main className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden">
 
                 {/* HEADER */}
-                <header className="flex items-center justify-between mb-4 h-12 shrink-0">
+                <header className="flex items-center justify-between mb-4 h-11 shrink-0">
                     <div className="flex items-center gap-6">
                         <AssetSelector selected={selectedAsset} onSelect={setSelectedAsset} />
 
@@ -160,7 +160,7 @@ export default function Dashboard() {
                         ))}
                     </div>
 
-                    <div className="h-full flex flex-col shrink-0">
+                    <div className="h-full w-55 shrink-0 transition-all duration-300">
                         <CurrencyStrength strengthData={data.currencyStrength} />
                     </div>
                 </div>
